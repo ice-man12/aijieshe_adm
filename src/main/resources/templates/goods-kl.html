@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/aijieshe/static/lib/layui-v2.3.0/css/layui.css">
+    <script type="text/javascript" src="/aijieshe/static/lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/aijieshe/static/js/echarts.min.js" charset="utf-8"></script>
+     <link rel="stylesheet" href="/aijieshe/static/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="/aijieshe/static/Styles/main.css" media="all">
+    <title>Title</title>
+</head>
+<body class="timo-layout-page">
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header timo-card-header">
+                <span><i class="fa fa-shopping-bag"></i>商品表</span>
+                </div>
+                <div class="layui-card-body">
+                    <table class="layui-table">
+                        <thead>
+                            <tr>
+                                <th>商品编号</th>
+                                <th>商品名称</th>
+                                <th>注册时间</th>
+                                <th>价格</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>202004474823</th>
+                                <th>旺旺</th>
+                                <th>2022.4.19:12:39:00</th>
+                                <th>20</th>
+                            </tr>
+                         <tr>
+                                <th>202004474823</th>
+                                <th>旺旺</th>
+                                <th>2022.4.19:12:39:00</th>
+                                <th>20</th>
+                            </tr><tr>
+                                <th>202004474823</th>
+                                <th>旺旺</th>
+                                <th>2022.4.19:12:39:00</th>
+                                <th>20</th>
+                            </tr><tr>
+                                <th>202004474823</th>
+                                <th>旺旺</th>
+                                <th>2022.4.19:12:39:00</th>
+                                <th>20</th>
+                            </tr><tr>
+                                <th>202004474823</th>
+                                <th>旺旺</th>
+                                <th>2022.4.19:12:39:00</th>
+                                <th>20</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div id="test1"></div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md5 layui-col-md-offset1">
+            <div class="layui-card">
+                <div class="layui-card-header timo-card-header">
+                    <span><i class="fa fa-check"></i>收益情况</span>
+                </div>
+                <div class="layui-card-body">
+                    <div id="e1" style="width: 100%;height: 281px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row" style="padding-top: 15px">
+        <div class="layui-card">
+            <div class="layui-card-header timo-card-header">
+                <span><i class="fa fa-shopping-cart "></i>商品售卖情况</span>
+            </div>
+            <div class="layui-card-body">
+                <div id="e2" style="width: 100%;height: 400px"></div>
+                <div id="e3" style="width: 100%;height: 400px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+layui.use('laypage', function(){
+  var laypage = layui.laypage;
+
+  //执行一个laypage实例
+  laypage.render({
+    elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
+    ,count: 50 //数据总数，从服务端得到
+  });
+});
+
+
+
+var chartDom = document.getElementById('e1');
+var myChart = echarts.init(chartDom);
+var option;
+
+option = {
+  title: {
+
+  },
+  tooltip: {
+    trigger: 'item'
+  },
+  legend: {
+    orient: 'vertical',
+    left: 'left'
+  },
+  series: [
+    {
+      name: '',
+      type: 'pie',
+      radius: '50%',
+      data: [
+        { value: 800, name: '服务' },
+        { value: 73, name: '商品' },
+
+      ],
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowColor: 'rgba(0, 0, 0, 0.5)'
+        }
+      }
+    }
+  ]
+};
+
+option && myChart.setOption(option);
+
+fun1();
+    function fun1() {
+
+
+var chartDom = document.getElementById('e2');
+var myChart = echarts.init(chartDom);
+var option;
+
+option = {
+     title: {
+    text: '服务类'
+  },
+  xAxis: {
+    data: ['天河校区', '白云校区', '东校区','河源校区','北校区',]
+  },
+  yAxis: {},
+  dataGroupId: '',
+  animationDurationUpdate: 500,
+  series: {
+    type: 'bar',
+    id: 'sales',
+      color: '#a90000',
+    data: [
+      {
+        value: 1500,
+        groupId: 'th'
+      },
+      {
+        value: 1200,
+        groupId: 'by'
+      },
+      {
+        value: 1600,
+        groupId: 'dx'
+      },
+        {
+        value: 1500,
+        groupId: 'hy'
+      },
+        {
+        value: 1459,
+        groupId: 'bx'
+      },
+    ],
+    universalTransition: {
+      enabled: true,
+      divideShape: 'clone'
+    }
+  }
+};
+const drilldownData = [
+  {
+    dataGroupId: 'th',
+    data: [
+      ['洗衣机', 120],
+      ['风扇', 68],
+      ['阳台', 78],
+      ['厕所', 88],
+      ['地板', 98],
+      ['空调', 99],
+    ]
+  },
+  {
+    dataGroupId: 'by',
+    data: [
+     ['洗衣机', 120],
+      ['风扇', 68],
+      ['阳台', 78],
+      ['厕所', 88],
+      ['地板', 98],
+      ['空调', 99],
+    ]
+  },
+  {
+    dataGroupId: 'dx',
+    data: [
+     ['洗衣机', 120],
+      ['风扇', 68],
+      ['阳台', 78],
+      ['厕所', 88],
+      ['地板', 98],
+      ['空调', 99],
+    ]
+  },
+    {
+    dataGroupId: 'hy',
+    data: [
+      ['洗衣机', 120],
+      ['风扇', 68],
+      ['阳台', 78],
+      ['厕所', 88],
+      ['地板', 98],
+      ['空调', 99],
+    ]
+  },
+    {
+    dataGroupId: 'bx',
+    data: [
+      ['洗衣机', 120],
+      ['风扇', 68],
+      ['阳台', 78],
+      ['厕所', 88],
+      ['地板', 98],
+      ['空调', 99],
+    ]
+  },
+];
+myChart.on('click', function (event) {
+  if (event.data) {
+    var subData = drilldownData.find(function (data) {
+      return data.dataGroupId === event.data.groupId;
+    });
+    if (!subData) {
+      return;
+    }
+    myChart.setOption({
+      xAxis: {
+        data: subData.data.map(function (item) {
+          return item[0];
+        })
+      },
+      series: {
+        type: 'bar',
+        id: 'sales',
+        dataGroupId: subData.dataGroupId,
+        data: subData.data.map(function (item) {
+          return item[1];
+        }),
+        universalTransition: {
+          enabled: true,
+          divideShape: 'clone'
+        }
+      },
+      graphic: [
+        {
+          type: 'text',
+          left: 50,
+          top: 20,
+          style: {
+            text: '返回',
+            fontSize: 18
+          },
+          onclick: function () {
+            myChart.setOption(option);
+          }
+        }
+      ]
+    });
+  }
+});
+
+option && myChart.setOption(option);
+
+    };
+fun2();
+    function fun2() {
+
+
+var chartDom = document.getElementById('e3');
+var myChart = echarts.init(chartDom);
+var option;
+
+option = {
+ title: {
+    text: '商品类'
+  },
+  xAxis: {
+    data: ['天河校区', '白云校区', '东校区','河源校区','北校区',]
+  },
+  yAxis: {},
+  dataGroupId: '',
+  animationDurationUpdate: 500,
+  series: {
+    type: 'bar',
+    id: 'sales',
+    data: [
+      {
+        value: 1200,
+        groupId: 'th'
+      },
+      {
+        value: 1400,
+        groupId: 'by'
+      },
+      {
+        value: 1200,
+        groupId: 'dx'
+      },
+        {
+        value: 1100,
+        groupId: 'hy'
+      },
+        {
+        value: 1500,
+        groupId: 'bx'
+      },
+    ],
+    universalTransition: {
+      enabled: true,
+      divideShape: 'clone'
+    }
+  }
+};
+const drilldownData = [
+  {
+    dataGroupId: 'th',
+    data: [
+      ['洗衣液', 99],
+      ['扫把', 45],
+      ['拖把', 87],
+      ['衣架', 58],
+      ['牙刷', 87],
+      ['牙膏', 87],
+      ['垃圾桶', 99],
+      ['毛巾', 87],
+      ['纸巾', 56],
+    ]
+  },
+  {
+    dataGroupId: 'by',
+    data: [
+    ['洗衣液', 99],
+      ['扫把', 45],
+      ['拖把', 87],
+      ['衣架', 58],
+      ['牙刷', 87],
+      ['牙膏', 87],
+      ['垃圾桶', 99],
+      ['毛巾', 87],
+      ['纸巾', 56],
+    ]
+  },
+  {
+    dataGroupId: 'dx',
+    data: [
+    ['洗衣液', 99],
+      ['扫把', 45],
+      ['拖把', 87],
+      ['衣架', 58],
+      ['牙刷', 87],
+      ['牙膏', 87],
+      ['垃圾桶', 99],
+      ['毛巾', 87],
+      ['纸巾', 56],
+    ]
+  },
+    {
+    dataGroupId: 'hy',
+    data: [
+     ['洗衣液', 99],
+      ['扫把', 45],
+      ['拖把', 87],
+      ['衣架', 58],
+      ['牙刷', 87],
+      ['牙膏', 87],
+      ['垃圾桶', 99],
+      ['毛巾', 87],
+      ['纸巾', 56],
+    ]
+  },
+    {
+    dataGroupId: 'bx',
+    data: [
+      ['洗衣液', 99],
+      ['扫把', 45],
+      ['拖把', 87],
+      ['衣架', 58],
+      ['牙刷', 87],
+      ['牙膏', 87],
+      ['垃圾桶', 99],
+      ['毛巾', 87],
+      ['纸巾', 56],
+    ]
+  },
+];
+myChart.on('click', function (event) {
+  if (event.data) {
+    var subData = drilldownData.find(function (data) {
+      return data.dataGroupId === event.data.groupId;
+    });
+    if (!subData) {
+      return;
+    }
+    myChart.setOption({
+      xAxis: {
+        data: subData.data.map(function (item) {
+          return item[0];
+        })
+      },
+      series: {
+
+        type: 'bar',
+        id: 'sales',
+        dataGroupId: subData.dataGroupId,
+        data: subData.data.map(function (item) {
+          return item[1];
+        }),
+        universalTransition: {
+          enabled: true,
+          divideShape: 'clone'
+        }
+      },
+      graphic: [
+        {
+          type: 'text',
+          left: 50,
+          top: 20,
+          style: {
+            text: '返回',
+            fontSize: 18
+          },
+          onclick: function () {
+            myChart.setOption(option);
+          }
+        }
+      ]
+    });
+  }
+});
+
+option && myChart.setOption(option);
+
+    };
+</script>

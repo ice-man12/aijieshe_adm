@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/aijieshe/static/lib/layui-v2.3.0/css/layui.css">
+    <script type="text/javascript" src="/aijieshe/static/lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/aijieshe/static/js/echarts.min.js" charset="utf-8"></script>
+     <link rel="stylesheet" href="/aijieshe/static/lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="/aijieshe/static/Styles/main.css" media="all">
+    <title>Title</title>
+</head>
+<body class="timo-layout-page">
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-col-md5">
+            <div class="layui-card">
+                <div class="layui-card-header timo-card-header">
+                <span><i class="layui-icon layui-icon-username"></i>用户表</span>
+                </div>
+                <div class="layui-card-body">
+                    <table class="layui-table">
+                        <thead>
+                            <tr>
+                                <th>用户名</th>
+                                <th>用户名称</th>
+                                <th>注册时间</th>
+                                <th>性别</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>wd</th>
+                                <th>ww</th>
+                                <th>2022.4.19:12:39:00</th>
+                                <th>男</th>
+                            </tr>
+                         <tr>
+                                <th>wd</th>
+                                <th>ww</th>
+                                <th>2022.4.19:12:39:00</th>
+                                <th>男</th>
+                            </tr>
+                         <tr>
+                                <th>wd</th>
+                                <th>ww</th>
+                                <th>2022.4.19:12:39:00</th>
+                                <th>男</th>
+                            </tr>
+                         <tr>
+                                <th>wd</th>
+                                <th>ww</th>
+                                <th>2022.4.19:12:39:00</th>
+                                <th>男</th>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <div id="test1"></div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md6 layui-col-md-offset1">
+            <div class="layui-card">
+                <div class="layui-card-header timo-card-header">
+                    <span><i class="layui-icon layui-icon-user"></i>用户访问量</span>
+                </div>
+                <div class="layui-card-body">
+                    <div id="e1" style="width: 100%;height: 281px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row" style="padding-top: 15px">
+        <div class="layui-card">
+            <div class="layui-card-header timo-card-header">
+                <span><i class="fa fa-line-chart "></i>历年校区用户消费</span>
+            </div>
+            <div class="layui-card-body">
+                <div id="e2" style="width: 100%;height: 400px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+layui.use('laypage', function(){
+  var laypage = layui.laypage;
+
+  //执行一个laypage实例
+  laypage.render({
+    elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
+    ,count: 50 //数据总数，从服务端得到
+  });
+});
+
+var app = {};
+
+var chartDom = document.getElementById('e1');
+var myChart = echarts.init(chartDom);
+var option;
+
+const categories = (function () {
+  let now = new Date();
+  let res = [];
+  let len = 10;
+  while (len--) {
+    res.unshift(now.toLocaleTimeString().replace(/^\D*/, ''));
+    now = new Date(+now - 2000);
+  }
+  return res;
+})();
+const categories2 = (function () {
+  let res = [];
+  let len = 10;
+  while (len--) {
+    res.push(10 - len - 1);
+  }
+  return res;
+})();
+const data = (function () {
+  let res = [];
+  let len = 10;
+  while (len--) {
+    res.push(Math.round(Math.random() * 1000));
+  }
+  return res;
+})();
+const data2 = (function () {
+  let res = [];
+  let len = 0;
+  while (len < 10) {
+    res.push(+(Math.random() * 10 + 5).toFixed(1));
+    len++;
+  }
+  return res;
+})();
+option = {
+  title: {
+    text: ''
+  },
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'cross',
+      label: {
+        backgroundColor: '#283b56'
+      }
+    }
+  },
+  legend: {},
+  dataZoom: {
+    show: false,
+    start: 0,
+    end: 100
+  },
+  xAxis: [
+    {
+      type: 'category',
+      boundaryGap: true,
+      data: categories
+    },
+    {
+      type: 'category',
+      boundaryGap: true,
+      data: categories2
+    }
+  ],
+  yAxis: [
+    {
+      type: 'value',
+      scale: true,
+      name: '人数',
+      max: 30,
+      min: 0,
+      boundaryGap: [0.2, 0.2]
+    },
+    {
+      type: 'value',
+      scale: true,
+      name: '人数',
+      max: 1200,
+      min: 0,
+      boundaryGap: [0.2, 0.2]
+    }
+  ],
+  series: [
+    {
+      name: '访问量',
+      type: 'bar',
+      xAxisIndex: 1,
+      yAxisIndex: 1,
+      data: data
+    },
+    {
+      name: '购买量',
+      type: 'line',
+      data: data2
+    }
+  ]
+};
+app.count = 11;
+setInterval(function () {
+  let axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
+  data.shift();
+  data.push(Math.round(Math.random() * 1000));
+  data2.shift();
+  data2.push(+(Math.random() * 10 + 5).toFixed(1));
+  categories.shift();
+  categories.push(axisData);
+  categories2.shift();
+  categories2.push(app.count++);
+  myChart.setOption({
+    xAxis: [
+      {
+        data: categories
+      },
+      {
+        data: categories2
+      }
+    ],
+    series: [
+      {
+        data: data
+      },
+      {
+        data: data2
+      }
+    ]
+  });
+}, 2100);
+option && myChart.setOption(option);
+
+
+
+var chartDom2 = document.getElementById('e2');
+var myChart2 = echarts.init(chartDom2);
+var option2;
+
+setTimeout(function () {
+  option2 = {
+    legend: {},
+    tooltip: {
+      trigger: 'axis',
+      showContent: true
+    },
+    dataset: {
+      source: [
+        ['product', '2017', '2018', '2019', '2020', '2021', '2022'],
+        ['北校区', 56    , 82, 88, 70, 53, 85],
+        ['白云校区', 51, 51, 55, 53, 73, 68],
+        ['东校区', 40, 62, 69, 36, 45, 32],
+        ['天河校区', 25, 37, 41, 18, 33, 49],
+        ['河源校区', 22, 34, 41, 28, 32, 21]
+      ]
+    },
+    xAxis: { type: 'category' },
+    yAxis: { gridIndex: 0 },
+    grid: { top: '55%' },
+    series: [
+      {
+        type: 'line',
+        smooth: true,
+        seriesLayoutBy: 'row',
+        emphasis: { focus: 'series' }
+      },
+      {
+        type: 'line',
+        smooth: true,
+        seriesLayoutBy: 'row',
+        emphasis: { focus: 'series' }
+      },
+      {
+        type: 'line',
+        smooth: true,
+        seriesLayoutBy: 'row',
+        emphasis: { focus: 'series' }
+      },
+      {
+        type: 'line',
+        smooth: true,
+        seriesLayoutBy: 'row',
+        emphasis: { focus: 'series' }
+      },
+         {
+        type: 'line',
+        smooth: true,
+        seriesLayoutBy: 'row',
+        emphasis: { focus: 'series' }
+      },
+      {
+        type: 'pie',
+        id: 'pie',
+        radius: '30%',
+        center: ['50%', '25%'],
+        emphasis: {
+          focus: 'self'
+        },
+        label: {
+          formatter: '{b}: {@2012} ({d}%)'
+        },
+        encode: {
+          itemName: 'product',
+          value: '2012',
+          tooltip: '2012'
+        }
+      }
+    ]
+  };
+  myChart2.on('updateAxisPointer', function (event) {
+    const xAxisInfo = event.axesInfo[0];
+    if (xAxisInfo) {
+      const dimension = xAxisInfo.value + 1;
+      myChart2.setOption({
+        series: {
+          id: 'pie',
+          label: {
+            formatter: '{b}: {@[' + dimension + ']} ({d}%)'
+          },
+          encode: {
+            value: dimension,
+            tooltip: dimension
+          }
+        }
+      });
+    }
+  });
+  myChart2.setOption(option2);
+});
+
+option2 && myChart2.setOption(option2);
+
+</script>

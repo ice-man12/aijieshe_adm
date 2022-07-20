@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aijieshe.dao.administrator_dao">
+    <select id="check" resultType="com.aijieshe.pojo.administrator">
+        select id, name, starttime, updatetime, password,phone,department,campus,position,state,permission from administrator where id=#{id} and password=#{password}
+    </select>
+<!--    ArrayList<administrator> getall(String id,String name);-->
+    <select id="getall" resultType="com.aijieshe.pojo.administrator">
+        select id, name, starttime, updatetime, password,phone,department,campus,position,state,permission from administrator
+        <where>
+            <if test="id != null and id != ''">
+                and id=#{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name=#{name}
+            </if>
+        </where>
+        limit #{page} , #{limit}
+    </select>
+<!--    int getconut(String id,String name);-->
+
+    <select id="getconut" resultType="int">
+        select count(*) from administrator
+        <where>
+            <if test="id != null and id != ''">
+                and id=#{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name=#{name}
+            </if>
+        </where>
+    </select>
+
+<!--    int delbyid(String id);-->
+
+    <delete id="delbyid" >
+        delete from administrator where id=#{id}
+    </delete>
+
+    <update id="updata">
+        update administrator set name=#{name},starttime=#{starttime},updatetime=#{updatetime},password=#{password},phone=#{phone},department=#{department},campus=#{campus},position =#{position},state=#{state},permission=#{permission} where id=#{id}
+    </update>
+
+
+<!--        String id,String name,String starttime,String updatetime,String password,String phone,String department,String campus,String position,String state,String permission-->
+    <insert id="add_adm">
+        insert into administrator(id,name,starttime,updatetime,password,phone,department,campus,position,state,permission) values (#{id},#{name},#{starttime},#{updatetime},#{password},#{phone},#{department},#{campus},#{position},#{state},#{permission})
+
+    </insert>
+    
+    
+    <update id="update_list">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update administrator
+            <set>
+                <if test="item.permission != null and item.permission != ''">
+                    permission = #{item.permission},
+                </if>
+            </set>
+            where id = #{item.id}
+        </foreach>
+    </update>
+    <delete id="delete_list">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            delete from administrator  where id = #{item.id}
+        </foreach>
+    </delete>
+
+</mapper>

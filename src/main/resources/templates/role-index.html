@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>爱洁舍</title>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="/aijieshe/static/images/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!-- 引入css -->
+    <link rel="stylesheet" href="/aijieshe/static/Styles/plugins/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="/aijieshe/static/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/aijieshe/static/Styles/main.css" media="all">
+</head>
+<body class="timo-layout-page">
+    <div class="layui-card">
+        <div class="layui-card-header timo-card-header">
+            <span><i class="fa fa-bars"></i> 管理员管理</span>
+            <i class="layui-icon layui-icon-refresh refresh-btn"></i>
+        </div>
+        <div class="layui-card-body">
+
+            <script type="text/html" id="toolbarhead">
+                <div class="layui-row timo-card-screen" >
+                    <div class="pull-left layui-form-pane timo-search-box">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-block timo-search-status">
+                                <select class="timo-search-select" name="status"><option value="1">正常</option><option value="2">冻结</option></select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">编号</label>
+                            <div class="layui-input-block">
+                                <input id="adm_id" type="text" name="name" value="" placeholder="请输入管理员编号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">名称</label>
+                            <div class="layui-input-block">
+                                <input id="adm_name" type="text" name="title" value="" placeholder="请输入管理员名称" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button  class="layui-btn " lay-event="search" >
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="pull-right screen-btn-group">
+                        <button class="layui-btn" data-title="添加角色" lay-event="add">
+                            <i class="fa fa-plus"></i> 添加</button>
+                        <button class="layui-btn " lay-event="authorize">
+                            <i class="fa fa-user-secret"></i> 授权</button>
+                        <div class="btn-group">
+                            <button class="layui-btn" lay-event="delete"> 批量删除 </span>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </script>
+            <table  lay-data="{id: 'tablereload'}" id="role_msg" class="layui-table timo-table "lay-filter="rele_toolbarhead" lay-even>
+
+            </table>
+
+        </div>
+    </div>
+<script src="/aijieshe/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="/aijieshe/static/js/main.js" charset="utf-8"></script>
+    <script src="/aijieshe/static/js/plugins/jquery-3.3.1.min.js" charset="utf-8"></script>
+
+    //工具条
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
+        <!-- 这里同样支持 laytpl 语法，如： -->
+<!--        {{#  if(d.auth > 2){ }}-->
+<!--        <a class="layui-btn layui-btn-xs" lay-event="check">审核</a>-->
+<!--        {{#  } }}-->
+    </script>
+    <script type="text/html" id="text1">
+        <div></div>
+
+        <!-- 这里同样支持 laytpl 语法，如： -->
+        <!--        {{#  if(d.auth > 2){ }}-->
+        <!--        <a class="layui-btn layui-btn-xs" lay-event="check">审核</a>-->
+        <!--        {{#  } }}-->
+    </script>
+
+<script>
+
+    layui.use('table', function() {
+        var table = layui.table;
+        table.render({
+            elem: '#role_msg'
+            , height: 500
+            , url: '/aijieshe/getresource/administrator' //数据接口
+            , page: true //开启分页
+            ,limit: 8
+            ,toolbar: '#toolbarhead'
+           , defaultToolbar: [ 'print', 'exports', ]
+            ,loading:true
+            ,even: true //开启隔行背景
+            , cols: [
+                [ //表头
+                    {field: 'aa', type:'numbers'}
+                    ,{field: 'aa',type:'checkbox'}
+                    ,{field: 'id', title: '管理员编号', width: 181, sort: true,unresize:true}
+                    , {field: 'name', title: '管理员名称', width: 126,unresize:true}
+                    , {field: 'department', title: '部门', width: 120,unresize:true}
+                    , {field: 'position', title: '职位', width: 113,unresize:true}
+                    , {field: 'permission', title: '权限', width: 128,unresize:true}
+                    , {field: 'state', title: '状态', width: 66,unresize:true}
+                    , {field: 'password', title: '密码',hide:true}
+                    , {field: 'phone', title: '手机',hide:true}
+                    , {field: 'campus', title: '校区',hide:true}
+                    , {field: 'starttime', title: '创建时间',hide:true}
+                    , {field: 'updatetime', title: '更新时间', hide:true}
+                    ,{fixed: 'right', width:230, align:'center', toolbar: '#barDemo'}
+
+                ]]
+        });
+        //头工具栏
+
+        table.on('toolbar(rele_toolbarhead)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+
+            switch(obj.event){
+                case 'search':
+                    {
+                        var id=$('#adm_id').val();
+                        var name=$('#adm_name').val();
+                        if(id.trim()===''&&name.trim()==='')
+                        {
+                            layer.msg("搜索框不能为空",{icon:2});
+                            return;
+                        }
+                        $.ajax({
+                            url:"/aijieshe/getresource/administrator",    //请求的url地址
+                            dataType:"json",   //返回格式为json
+                            // async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+                            data:{"id":id,"name":name,"page":1,"limit":8},    //参数值
+                            type:"POST",   //请求方式
+                            success:function(req){
+                                console.log(req)
+                                if(req.code===0)
+                                {
+                                    layer.alert('id:'+req.data[0].id+'<br>'
+                                        + '名称:'+req.data[0].name+'<br>'
+                                        +'创建时间:'+req.data[0].starttime+'<br>'
+                                        +'更新时间:'+req.data[0].updatetime+'<br>'
+                                        +'校区:'+req.data[0].campus+'<br>'
+                                        +'部门:'+req.data[0].department+'<br>'
+                                        +'密码:'+req.data[0].password+'<br>'
+                                        +'权限:'+req.data[0].permission+'<br>'
+                                        +'手机号码:'+req.data[0].phone+'<br>'
+                                        +'职位:'+req.data[0].position+'<br>'
+                                        +'状态:'+req.data[0].state+'<br>',);
+                                }
+                                else if(req.code===1)
+                                {
+                                    layer.alert("查找不到此人",{icon:5});
+                                }
+                            },
+                            error:function(){
+                                layer.alert("系统繁忙",{icon: 5})
+                            }
+                        });
+                    }
+                    break;
+                case 'add':
+                    {
+                        layer.open({
+                            type: 2,
+                            title: '添加管理员',
+                            content: '/aijieshe/getresource/get/adm_add',
+                            area: ['406px', '572px'],
+                            resize: false,
+                            btn: ['确定', '取消'],
+                            yes: function(index, layero) {
+                                //通过以下的方法获取回调的数值
+                                let id          = $(layero).find('iframe')[0].contentWindow.id.value;
+                                let name        = $(layero).find('iframe')[0].contentWindow.adm_name.value;
+                                let password    = $(layero).find('iframe')[0].contentWindow.password.value;
+                                let phone        = $(layero).find('iframe')[0].contentWindow.phone.value;
+                                let department = $(layero).find('iframe')[0].contentWindow.department.value;
+                                let campus      = $(layero).find('iframe')[0].contentWindow.campus.value;
+                                let position        = $(layero).find('iframe')[0].contentWindow.position.value;
+                                let permission   = $(layero).find('iframe')[0].contentWindow.permission.value;
+
+                                if(name.trim()===''||id.trim()===''||password.trim()===''||phone.trim()===''||department.trim()===''||campus.trim()===''||position.trim()===''||permission.trim()==='')
+                                {
+                                   layer.alert("表单不能为空",{icon:2})
+                                    return;
+                                }
+                                $.ajax({
+                                    url:'/aijieshe/addresource/administrator',
+                                    type:"POST",
+                                    dataType:'json',
+                                    data:{
+                                        "id":id,
+                                        "name":name,
+                                        "password":password,
+                                        "phone":phone,
+                                        "department":department,
+                                        "campus":campus,
+                                        "position":position,
+                                        "permission":permission,
+                                    },
+                                    success:function(res){
+                                        if(res.code===1)
+                                        {
+                                            layer.msg(res.msg,{icon:1});
+                                            table.reload('tablereload', {
+                                                height: 500
+                                                , url: '/aijieshe/getresource/administrator' //数据接口
+                                                , page: true //开启分页
+                                                ,limit: 8
+                                                ,toolbar: '#toolbarhead'
+                                                , defaultToolbar: [ 'print', 'exports' ]
+                                                ,loading:true
+                                                ,even: true //开启隔行背景
+                                                , cols: [
+                                                    [ //表头
+                                                        {field: 'aa', type:'numbers'}
+                                                        ,{field: 'aa',type:'checkbox'}
+                                                        ,{field: 'id', title: '管理员编号', width: 181, sort: true,unresize:true}
+                                                        , {field: 'name', title: '管理员名称', width: 126,unresize:true}
+                                                        , {field: 'department', title: '部门', width: 120,unresize:true}
+                                                        , {field: 'position', title: '职位', width: 113,unresize:true}
+                                                        , {field: 'permission', title: '权限', width: 128,unresize:true}
+                                                        , {field: 'state', title: '状态', width: 66,unresize:true}
+                                                        , {field: 'password', title: '密码',hide:true}
+                                                        , {field: 'phone', title: '手机',hide:true}
+                                                        , {field: 'campus', title: '校区',hide:true}
+                                                        , {field: 'starttime', title: '创建时间',hide:true}
+                                                        , {field: 'updatetime', title: '更新时间', hide:true}
+                                                        ,{fixed: 'right', width:230, align:'center', toolbar: '#barDemo'}
+
+                                                    ]]
+                                            });
+                                        }
+                                        else
+                                        {
+                                            layer.msg(res.msg,{icon:5});
+                                            layer.close(index);
+                                        }
+                                    },
+                                    error:function(res){
+                                        layer.msg('系统繁忙，稍后再试！',{icon:5});
+
+                                        layer.close(index);
+                                    }
+                                })
+                                layer.close(index);
+                            }
+
+                            })
+                    }
+                    break;
+                case 'authorize':
+                    {
+                        if(checkStatus.data.length===0)
+                        {
+                            layer.msg("操作对象不能为空",{icon:2})
+                            return;
+                        }
+                        let arrys=[];
+                        let permissions=[];
+                        checkStatus.data.forEach(i=>{
+                            arrys.push(i.id);
+                            if(i.permission==='管理员')
+                                permissions.push('超级管理员');
+                            else if(i.permission==='超级管理员')
+                                permissions.push('管理员');
+                            else
+                                permissions.push('管理员');
+                        })
+                        $.ajax({
+                            url:"/aijieshe/update_listresource/administrator",    //请求的url地址
+                            dataType:"json",   //返回格式为json
+                            async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+                            data:{"arrys":arrys,"permissions":permissions},    //参数值
+                            type:"POST",   //请求方式
+                            traditional: true,
+                            success:function(req){
+                                if(req.code===1)
+                                {
+                                    layer.alert(req.msg,{icon:1});
+                                    table.reload('idTest', {
+                                         height: 500
+                                        , url: '/aijieshe/getresource/administrator' //数据接口
+                                        , page: true //开启分页
+                                        ,limit: 8
+                                        ,toolbar: '#toolbarhead'
+                                        , defaultToolbar: [ 'print', 'exports' ]
+                                        ,loading:true
+                                        ,even: true //开启隔行背景
+                                        , cols: [
+                                            [ //表头
+                                                {field: 'aa', type:'numbers'}
+                                                ,{field: 'aa',type:'checkbox'}
+                                                ,{field: 'id', title: '管理员编号', width: 181, sort: true,unresize:true}
+                                                , {field: 'name', title: '管理员名称', width: 126,unresize:true}
+                                                , {field: 'department', title: '部门', width: 120,unresize:true}
+                                                , {field: 'position', title: '职位', width: 113,unresize:true}
+                                                , {field: 'permission', title: '权限', width: 128,unresize:true}
+                                                , {field: 'state', title: '状态', width: 66,unresize:true}
+                                                , {field: 'password', title: '密码',hide:true}
+                                                , {field: 'phone', title: '手机',hide:true}
+                                                , {field: 'campus', title: '校区',hide:true}
+                                                , {field: 'starttime', title: '创建时间',hide:true}
+                                                , {field: 'updatetime', title: '更新时间', hide:true}
+                                                ,{fixed: 'right', width:230, align:'center', toolbar: '#barDemo'}
+
+                                            ]]
+                                    });
+                                }
+                                else if(req.code===0)
+                                {
+                                    layer.alert(req.msg,{icon:5});
+                                }
+                            },
+                            error:function(){
+                                layer.alert("系统繁忙",{icon: 5})
+                            }
+                        });
+
+                        // console.log(checkStatus.data[1]);
+                    }
+                    break;
+                case 'delete':
+                    {
+                        if(checkStatus.data.length===0)
+                        {
+                            layer.msg("操作对象不能为空",{icon:2})
+                            return;
+                        }
+                        let arrys=[];
+                        checkStatus.data.forEach(i=>{
+                            arrys.push(i.id);
+                        })
+                        $.ajax({
+                            url:"/aijieshe/delete_listresource/administrator",    //请求的url地址
+                            dataType:"json",   //返回格式为json
+                            async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+                            data:{"arrys":arrys},    //参数值
+                            type:"POST",   //请求方式
+                            traditional: true,
+                            success:function(req){
+                                if(req.code===1)
+                                {
+                                    layer.alert(req.msg,{icon:1});
+                                    table.reload('tablereload', {
+                                        height: 500
+                                        , url: '/aijieshe/getresource/administrator' //数据接口
+                                        , page: true //开启分页
+                                        ,limit: 8
+                                        ,toolbar: '#toolbarhead'
+                                        , defaultToolbar: [ 'print', 'exports' ]
+                                        ,loading:true
+                                        ,even: true //开启隔行背景
+                                        , cols: [
+                                            [ //表头
+                                                {field: 'aa', type:'numbers'}
+                                                ,{field: 'aa',type:'checkbox'}
+                                                ,{field: 'id', title: '管理员编号', width: 181, sort: true,unresize:true}
+                                                , {field: 'name', title: '管理员名称', width: 126,unresize:true}
+                                                , {field: 'department', title: '部门', width: 120,unresize:true}
+                                                , {field: 'position', title: '职位', width: 113,unresize:true}
+                                                , {field: 'permission', title: '权限', width: 128,unresize:true}
+                                                , {field: 'state', title: '状态', width: 66,unresize:true}
+                                                , {field: 'password', title: '密码',hide:true}
+                                                , {field: 'phone', title: '手机',hide:true}
+                                                , {field: 'campus', title: '校区',hide:true}
+                                                , {field: 'starttime', title: '创建时间',hide:true}
+                                                , {field: 'updatetime', title: '更新时间', hide:true}
+                                                ,{fixed: 'right', width:230, align:'center', toolbar: '#barDemo'}
+
+                                            ]]
+                                    });
+                                }
+                                else if(req.code===0)
+                                {
+                                    layer.alert(req.msg,{icon:5});
+                                }
+                            },
+                            error:function(){
+                                layer.alert("系统繁忙",{icon: 5})
+                            }
+                        });
+
+                    }
+                    break;
+            };
+        });
+
+        // <a className="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+        // <a className="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        // <a className="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        //触发事件
+
+
+        //工具条js
+        table.on('tool(rele_toolbarhead)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+
+
+            if(layEvent === 'detail'){ //查看
+                //do somehing
+
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.alert('id:'+data.id+'<br>'
+                                 + '名称:'+data.name+'<br>'
+                                 +'创建时间:'+data.starttime+'<br>'
+                                 +'更新时间:'+data.updatetime+'<br>'
+                                 +'校区:'+data.campus+'<br>'
+                                 +'部门:'+data.department+'<br>'
+                                 +'密码:'+data.password+'<br>'
+                                 +'权限:'+data.permission+'<br>'
+                                 +'手机号码:'+data.phone+'<br>'
+                                 +'职位:'+data.position+'<br>'
+                                 +'状态:'+data.state+'<br>'
+                        , function(index){
+                        //do something
+
+                        layer.close(index);
+                    });
+
+                });
+            } else if(layEvent === 'del'){ //删除
+                layer.confirm('是否删除id为：'+data.id, function(index){
+
+
+                    layer.close(index);
+                    //向服务端发送删除指令
+                    $.ajax({
+                        url:"/aijieshe/delresource/administrator",    //请求的url地址
+                        dataType:"json",   //返回格式为json
+                        async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+                        data:{"id":data.id},    //参数值
+                        type:"POST",   //请求方式
+                        success:function(req){
+                            if(req.code===1)
+                            {
+                                layer.alert(req.msg,{icon:1});
+                                table.reload('tablereload', {
+                                    height: 500
+                                    , url: '/aijieshe/getresource/administrator' //数据接口
+                                    , page: true //开启分页
+                                    ,limit: 8
+                                    ,toolbar: '#toolbarhead'
+                                    , defaultToolbar: [ 'print', 'exports' ]
+                                    ,loading:true
+                                    ,even: true //开启隔行背景
+                                    , cols: [
+                                        [ //表头
+                                            {field: 'aa', type:'numbers'}
+                                            ,{field: 'aa',type:'checkbox'}
+                                            ,{field: 'id', title: '管理员编号', width: 181, sort: true,unresize:true}
+                                            , {field: 'name', title: '管理员名称', width: 126,unresize:true}
+                                            , {field: 'department', title: '部门', width: 120,unresize:true}
+                                            , {field: 'position', title: '职位', width: 113,unresize:true}
+                                            , {field: 'permission', title: '权限', width: 128,unresize:true}
+                                            , {field: 'state', title: '状态', width: 66,unresize:true}
+                                            , {field: 'password', title: '密码',hide:true}
+                                            , {field: 'phone', title: '手机',hide:true}
+                                            , {field: 'campus', title: '校区',hide:true}
+                                            , {field: 'starttime', title: '创建时间',hide:true}
+                                            , {field: 'updatetime', title: '更新时间', hide:true}
+                                            ,{fixed: 'right', width:230, align:'center', toolbar: '#barDemo'}
+
+                                        ]]
+                                });
+                            }
+                            else if(req.code===0)
+                            {
+                                layer.alert(req.msg,{icon:5});
+                            }
+                        },
+                        error:function(){
+                            layer.alert("系统繁忙",{icon: 5})
+                        }
+                    });
+                });
+            } else if(layEvent === 'edit'){ //编辑
+                //do something
+
+                layer.open({
+                    type: 2,
+                    title: '编辑信息',
+                    content: '/aijieshe/getresource/get/form-administrator',
+                    area: ['1000px', '373px'],
+                    resize:false,
+                    btn: ['确定', '取消'],
+                    yes: function(index, layero) {
+                        //通过以下的方法获取回调的数值
+                        let id          = $(layero).find('iframe')[0].contentWindow.id.value;
+                        let name        = $(layero).find('iframe')[0].contentWindow.admname.value;
+                        let starttime   = $(layero).find('iframe')[0].contentWindow.starttime.value;
+                        let updatetime  = $(layero).find('iframe')[0].contentWindow.updatetime.value;
+                        let password    = $(layero).find('iframe')[0].contentWindow.password.value;
+                        let phone        = $(layero).find('iframe')[0].contentWindow.phone.value;
+                        let department = $(layero).find('iframe')[0].contentWindow.department.value;
+                        let campus      = $(layero).find('iframe')[0].contentWindow.campus.value;
+                        let state       = $(layero).find('iframe')[0].contentWindow.state.value;
+                        let position        = $(layero).find('iframe')[0].contentWindow.position.value;
+                        let permission   = $(layero).find('iframe')[0].contentWindow.permission.value;
+
+
+                        $.ajax({
+                            url:'/aijieshe/updataresource/administrator',
+                            type:"POST",
+                            dataType:'json',
+                            data:{
+                                "id":id,
+                                "name":name,
+                                "starttime":starttime,
+                                "updatetime":updatetime,
+                                "password":password,
+                                "phone":phone,
+                                "department":department,
+                                "campus":campus,
+                                "state":state,
+                                "position":position,
+                                "permission":permission,
+                            },
+                            success:function(res){
+                                if(res.code===1)
+                                    layer.msg(res.msg,{icon:1});
+                                else
+                                {
+                                    layer.msg(res.msg,{icon:5});
+                                    layer.close(index);
+                                }
+                            },
+                            error:function(res){
+                                layer.msg('系统繁忙，稍后再试！',{icon:5});
+
+                                layer.close(index);
+                            }
+                        })
+                        obj.update({
+                            id:id,
+                            name:name,
+                            starttime:starttime,
+                            updatetime:updatetime,
+                            password:password,
+                            phone:phone,
+                            department:department,
+                            campus:campus,
+                            state:state,
+                            position:position,
+                            permission:permission,
+                        });
+
+                        layer.close(index);
+                    }
+                    ,success: function(layero, index){
+
+                    var div = layero.find('iframe').contents();  // div.html() div里面的内容,不包含当前这个div
+
+                    var body = layer.getChildFrame('body', index);  // body.html() body里面的内容
+
+
+                        // var iframeWindow = window['layui-layer-iframe'+ index]   //得到iframe页的窗口对象
+                    // //通过test1.html中各个输入框的id可以进行赋值
+                    body.find("#id").val(data.id);
+                    body.find("#admname").val(data.name);
+                    body.find("#starttime").val(data.starttime)
+                    body.find("#updatetime").val(data.updatetime)
+                    body.find("#password").val(data.password)
+                    body.find("#phone").val(data.phone)
+                    body.find("#department").val(data.department)
+                    body.find("#campus").val(data.campus)
+                    body.find("#state").val(data.state)
+                    body.find("#position").val(data.position)
+                    body.find("#permission").val(data.permission)
+
+                }
+
+                });
+                //同步更新缓存对应的值
+
+            } else if(layEvent === 'LAYTABLE_TIPS'){
+                layer.alert('Hi，头部工具栏扩展的右侧图标。');
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

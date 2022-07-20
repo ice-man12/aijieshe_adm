@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>爱洁舍</title>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="/aijieshe/static/images/logo.jpg" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!-- 引入css -->
+    <link rel="stylesheet" href="/aijieshe/static/Styles/plugins/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="/aijieshe/static/lib/layui-v2.3.0/css/layui.css" media="all">
+    <link rel="stylesheet" href="/aijieshe/static/Styles/main.css" media="all">
+    <script type="text/javascript" src="/aijieshe/static/Scripts/jquery-1.7.2.js"></script>
+    <script type="text/javascript"  src="/aijieshe/static/Scripts/jquery.spritely-0.6.js"></script>
+</head>
+<body class="layui-layout-login">
+<div class="login-bg">
+    <div class="">
+        <img src="/aijieshe/static/images/bg.jpg">
+    </div>
+</div>
+<div class="login-content">
+    <h1 class="login-box-title"><i class="fa fa-fw fa-user"></i>登录</h1>
+    <form class="layui-form" >
+        <div class="layui-form-item">
+            <label class="layui-icon layui-icon-username"></label>
+            <input class="layui-input" type="text" name="username" id="uid" placeholder="用户id">
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-icon layui-icon-password"></label>
+            <input class="layui-input" type="password" name="password" id="pwd" placeholder="密码">
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"
+                   style="height: 30%;width: 30% ;padding: 0;position: static;top:0;left: 0;font-size: 15px;line-height: 38px;text-align: center;color: #000000;">效验码:</label>
+            <input id="code" class="layui-input-inline" type="text" value="e5g88"
+                   style="height: 100%;width: 20%;padding-left: 0;padding-top: 5%"/>
+            <img src="/aijieshe/static/images/code.png" alt="" style="padding-left: 0"/><a href="#">下一张</a>
+        </div>
+        <div class="layui-form-item">
+            <div id="f" style="width: 105px">
+                <input type="checkbox" name="rememberMe" title="5天免登录" lay-skin="primary" id="yes" value="0"  >
+                <div  class="layui-unselect layui-form-checkbox" lay-skin="primary"  ><span>5天免登录</span></div>
+            </div>
+            <a class="layui-layout-right forget-password" id="k1">忘记密码?</a>
+        </div>
+
+        <div class="layui-form-item" style="width: 80%;padding-left: 10%">
+            <button type="button" class="layui-btn  " lay-submit lay-filter="formDemo1" ><i
+                    class="fa fa-sign-in fa-lg fa-fw"></i> 登录
+            </button>
+            <button type="reset" class="layui-btn  layui-layout-right layui-btn-primary"><i
+                    class="fa fa-repeat fa-lg fa-fw"></i> 重置
+            </button>
+        </div>
+    </form>
+</div>
+
+<script src="/aijieshe/static/lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
+<script src="/aijieshe/static/js/main.js" charset="utf-8"></script>
+</body>
+</html>
+<script th:inline="javascript">
+
+        var title = [[${title}]];
+        console.log(title);
+        if(title!=null)
+        {
+            layui.use('layer', function(){
+                var layer = layui.layer;
+
+                layer.msg(title);
+            });
+        }
+
+
+</script>
+<script type="text/javascript">
+    $("#f").click(function(){
+       var flg=$("#yes").val();
+       if (flg==="0")
+       {
+           $('#yes').val("1");
+           console.log($("#yes").val())
+       }else
+       {
+           $('#yes').val("0");
+           console.log($("#yes").val())
+       }
+    })
+    layui.use('layer', function () {
+        var layer = layui.layer;
+
+        $('#k1').on('click', function (e) {
+            layer.msg("请联系管理员!")
+        })
+    });
+//
+    layui.use('form', function () {
+        var form = layui.form;
+        //监听form的提交 监听lay-filter
+        form.on('submit(formDemo1)', function (data) {
+            if ($('#uid').val() == "" || $('#pwd').val() == "" || $('#code').val() == "") {
+                layui.use('layer', function () {
+                    var layer = layui.layer;
+                    layer.msg("用户名或密码不可为空！")
+
+                });
+            } else {
+
+                window.location.href="/aijieshe/getlogin?id=" +$('#uid').val()+ "&pwd="+$('#pwd').val()+"&yes="+$('#yes').val();
+            }
+        })
+    });
+
+</script>

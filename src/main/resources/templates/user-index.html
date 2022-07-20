@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>爱洁舍</title>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="/aijieshe/static/images/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!-- 引入css -->
+    <link rel="stylesheet" href="/aijieshe/static/Styles/plugins/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="/aijieshe/static/lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="/aijieshe/static/Styles/main.css" media="all">
+    <link rel="stylesheet" href="/aijieshe/static/lib/zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+</head>
+<body class="timo-layout-page">
+    <div class="layui-card">
+        <div class="layui-card-header timo-card-header">
+            <span><i class="fa fa-bars"></i> 用户管理</span>
+            <i class="layui-icon layui-icon-refresh refresh-btn"></i>
+        </div>
+        <div class="layui-card-body">
+            <script type="text/html" id="toolbarhead">
+                <div class="layui-row timo-card-screen put-row">
+                    <div class="pull-left layui-form-pane timo-search-box">
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">手机号码</label>
+                            <div class="layui-input-block">
+                                <input id="phone" class="layui-input " value="" type="text" placeholder="请输入手机号码" data-url="#" >
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户名</label>
+                            <div class="layui-input-block">
+                                <input id="real_name" type="text" name="username" value="" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户昵称</label>
+                            <div class="layui-input-block">
+                                <input id="user_name" type="text" name="nickname" value="" placeholder="请输入用户名称" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn " lay-event="search">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="pull-right screen-btn-group">
+                        <div class="btn-group-left">
+                            <button class="layui-btn " lay-event="edit">
+                                <i class="fa fa-refresh"></i> 修改密码</button>
+                            <button class="layui-btn "lay-event="monitor">
+                                <i class="fa fa-user-secret"></i> 监视用户</button>
+                        </div>
+                        <div class="btn-group-right">
+                            <button class="layui-btn " data-title="添加用户" lay-event="add">
+                                <i class="fa fa-plus"></i> 添加</button>
+                            <div class="btn-group">
+                                <button class="layui-btn" lay-event="delete" >批量删除</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </script>
+
+            <table lay-data="{id: 'tablereload'}" id="user_msg" class="layui-table timo-table" lay-even lay-filter="user_toolbarhead">
+
+            </table>
+
+        </div>
+    </div>
+<script type="text/javascript" src="/aijieshe/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="/aijieshe/static/js/main.js" charset="utf-8"></script>
+<script type="text/javascript" src="/aijieshe/static/js/plugins/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/aijieshe/static/lib/zTree_v3/js/jquery.ztree.core.min.js"></script>
+<script type="text/javascript" src="/aijieshe/static/js/timoTree.js"></script>
+    <script type="text/html" id="toolbarmin">
+        <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
+        <!-- 这里同样支持 laytpl 语法，如： -->
+        <!--        {{#  if(d.auth > 2){ }}-->
+        <!--        <a class="layui-btn layui-btn-xs" lay-event="check">审核</a>-->
+        <!--        {{#  } }}-->
+    </script>
+<script type="text/javascript">
+
+
+
+    layui.use('table', function() {
+        var table = layui.table;
+        table.render({
+            elem: '#user_msg'
+            , height: 500
+            , url: '/aijieshe/getresource/user' //数据接口
+            , page: true //开启分页
+            , limit: 7
+            ,even: true //开启隔行背景
+            ,toolbar: '#toolbarhead'
+            , defaultToolbar: [ 'print', 'exports']
+            ,loading:true
+            , cols: [
+                [ //表头
+                    {field: 'aa', type:'numbers'}
+                    ,{field: 'aa',type:'checkbox'}
+                    ,{field: 'id', title: '用户编号', width: 144, sort: true,unresize:true}
+                    , {field: 'real_name', title: '用户姓名', width: 141,unresize:true}
+                    , {field: 'user_name', title: '用户名称', width: 156,unresize:true}
+                    , {field: 'phone', title: '手机号码', width: 147, sort: true,unresize:true}
+                    , {field: 'password', title: '密码', width: 146, sort: true,unresize:true}
+                    , {field: 'sex', title: '性别',hide:true}
+                    , {field: 'mail', title: '邮箱',hide:true}
+                    , {field: 'create_time', title: '创建时间', hide:true}
+                    , {field: 'state', title: '状态', hide:true}
+                    , {field: 'dormitorio', title: '宿舍地址',hide:true}
+                    , {field: 'instalaciones', title: '校区',hide:true}
+                    , {field: 'integral', title: '积分', hide:true}
+                    , {fixed: 'right', width: 231, align: 'center', toolbar: '#toolbarmin'}
+
+                ]]
+        });
+        //头工具栏
+
+        table.on('toolbar(user_toolbarhead)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+
+            switch(obj.event){
+                case 'search':
+                {
+                    var user_name=$('#user_name').val().trim();
+                    var real_name=$('#real_name').val().trim();
+                    var phone=$('#phone').val().trim();
+
+                    table.reload('tablereload', {
+                        height: 500
+                        , url: '/aijieshe/getresource/user?user_name='+user_name+"&real_name="+real_name+"&phone="+phone //数据接口
+                        , page: true //开启分页
+                        ,limit: 7
+                        ,toolbar: '#toolbarhead'
+                        , defaultToolbar: [ 'print', 'exports' ]
+                        ,loading:true
+                        ,even: true //开启隔行背景
+                        , cols: [
+                            [ //表头
+                                {field: 'aa', type:'numbers'}
+                                ,{field: 'aa',type:'checkbox'}
+                                ,{field: 'id', title: '用户编号', width: 144, sort: true,unresize:true}
+                                , {field: 'real_name', title: '用户姓名', width: 141,unresize:true}
+                                , {field: 'user_name', title: '用户名称', width: 156,unresize:true}
+                                , {field: 'phone', title: '手机号码', width: 147, sort: true,unresize:true}
+                                , {field: 'password', title: '密码', width: 146, sort: true,unresize:true}
+                                , {field: 'sex', title: '性别',hide:true}
+                                , {field: 'mail', title: '邮箱',hide:true}
+                                , {field: 'create_time', title: '创建时间', hide:true}
+                                , {field: 'state', title: '状态', hide:true}
+                                , {field: 'dormitorio', title: '宿舍地址',hide:true}
+                                , {field: 'instalaciones', title: '校区',hide:true}
+                                , {field: 'integral', title: '积分', hide:true}
+                                , {fixed: 'right', width: 231, align: 'center', toolbar: '#toolbarmin'}
+
+                            ]]
+                    });
+
+                }
+                    break;
+                case 'add':
+                {
+                    layer.open({
+                        type: 2,
+                        title: '添加管理员',
+                        content: '/aijieshe/getresource/get/user_add',
+                        area: ['406px', '572px'],
+                        resize: false,
+                        btn: ['确定', '取消'],
+                        yes: function(index, layero) {
+                            //通过以下的方法获取回调的数值
+                            let id            = $(layero).find('iframe')[0].contentWindow.id.value;
+                            let user_name        = $(layero).find('iframe')[0].contentWindow.user_name.value;
+                            let real_name        = $(layero).find('iframe')[0].contentWindow.real_name.value;
+                            let password        = $(layero).find('iframe')[0].contentWindow.password.value;
+                            let phone            = $(layero).find('iframe')[0].contentWindow.phone.value;
+                            let mail            = $(layero).find('iframe')[0].contentWindow.mail.value;
+                            let instalaciones      = $(layero).find('iframe')[0].contentWindow.instalaciones.value;
+                            let dormitorio       = $(layero).find('iframe')[0].contentWindow.dormitorio.value;
+                            let sex              = $(layero).find('iframe')[0].contentWindow.sex.value;
+
+                            if(sex.trim()===''||user_name.trim()===''||id.trim()===''||password.trim()===''||phone.trim()===''||mail.trim()===''||instalaciones.trim()===''||dormitorio.trim()===''||real_name.trim()==='')
+                            {
+                                layer.alert("表单不能为空",{icon:2})
+                                return;
+                            }
+                            $.ajax({
+                                url:'/aijieshe/addresource/user',
+                                type:"POST",
+                                dataType:'json',
+                                data:{
+                                    "id":id           ,
+                                    "user_name":user_name    ,
+                                    "real_name":real_name    ,
+                                    "password":password     ,
+                                    "phone":phone        ,
+                                    "mail":mail         ,
+                                    "instalaciones":instalaciones,
+                                    "dormitorio":dormitorio   ,
+                                    "sex":sex          ,
+                                },
+                                success:function(res){
+                                    if(res.code===1)
+                                    {
+                                        layer.msg(res.msg,{icon:1});
+                                        table.reload('tablereload', {
+                                            height: 500
+                                            , url: '/aijieshe/getresource/user' //数据接口
+                                            , page: true //开启分页
+                                            ,limit: 7
+                                            ,toolbar: '#toolbarhead'
+                                            , defaultToolbar: [ 'print', 'exports' ]
+                                            ,loading:true
+                                            ,even: true //开启隔行背景
+                                            , cols: [
+                                                [ //表头
+                                                    {field: 'aa', type:'numbers'}
+                                                    ,{field: 'aa',type:'checkbox'}
+                                                    ,{field: 'id', title: '用户编号', width: 144, sort: true,unresize:true}
+                                                    , {field: 'real_name', title: '用户姓名', width: 141,unresize:true}
+                                                    , {field: 'user_name', title: '用户名称', width: 156,unresize:true}
+                                                    , {field: 'phone', title: '手机号码', width: 147, sort: true,unresize:true}
+                                                    , {field: 'password', title: '密码', width: 146, sort: true,unresize:true}
+                                                    , {field: 'sex', title: '性别',hide:true}
+                                                    , {field: 'mail', title: '邮箱',hide:true}
+                                                    , {field: 'create_time', title: '创建时间', hide:true}
+                                                    , {field: 'state', title: '状态', hide:true}
+                                                    , {field: 'dormitorio', title: '宿舍地址',hide:true}
+                                                    , {field: 'instalaciones', title: '校区',hide:true}
+                                                    , {field: 'integral', title: '积分', hide:true}
+                                                    , {fixed: 'right', width: 231, align: 'center', toolbar: '#toolbarmin'}
+
+                                                ]]
+                                        });
+                                    }
+                                    else
+                                    {
+                                        layer.msg(res.msg,{icon:5});
+                                        layer.close(index);
+                                    }
+                                },
+                                error:function(res){
+                                    layer.msg('系统繁忙，稍后再试！',{icon:5});
+
+                                    layer.close(index);
+                                }
+                            })
+                            layer.close(index);
+                        }
+
+                    })
+                }
+                    break;
+                case 'monitor':
+                {
+                    if(checkStatus.data.length===0)
+                    {
+                        layer.msg("操作对象不能为空",{icon:2})
+                        return;
+                    }
+                    let arrys=[];
+                    let states=[];
+                    checkStatus.data.forEach(i=>{
+                        arrys.push(i.id);
+                        if(i.permission==='正常')
+                            states.push('监视');
+                        else if(i.permission==='监视')
+                            states.push('正常');
+                        else
+                            states.push('监视');
+                    })
+                    $.ajax({
+                        url:"/aijieshe/update_listresource/user",    //请求的url地址
+                        dataType:"json",   //返回格式为json
+                        async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+                        data:{"arrys":arrys,"states":states},    //参数值
+                        type:"POST",   //请求方式
+                        traditional: true,
+                        success:function(req){
+                            if(req.code===1)
+                            {
+                                layer.alert(req.msg,{icon:1});
+                                table.reload('tablereload', {
+                                    height: 500
+                                    , url: '/aijieshe/getresource/user' //数据接口
+                                    , page: true //开启分页
+                                    ,limit: 7
+                                    ,toolbar: '#toolbarhead'
+                                    , defaultToolbar: [ 'print', 'exports' ]
+                                    ,loading:true
+                                    ,even: true //开启隔行背景
+                                    , cols: [
+                                        [ //表头
+                                            {field: 'aa', type:'numbers'}
+                                            ,{field: 'aa',type:'checkbox'}
+                                            ,{field: 'id', title: '用户编号', width: 144, sort: true,unresize:true}
+                                            , {field: 'real_name', title: '用户姓名', width: 141,unresize:true}
+                                            , {field: 'user_name', title: '用户名称', width: 156,unresize:true}
+                                            , {field: 'phone', title: '手机号码', width: 147, sort: true,unresize:true}
+                                            , {field: 'password', title: '密码', width: 146, sort: true,unresize:true}
+                                            , {field: 'sex', title: '性别',hide:true}
+                                            , {field: 'mail', title: '邮箱',hide:true}
+                                            , {field: 'create_time', title: '创建时间', hide:true}
+                                            , {field: 'state', title: '状态', hide:true}
+                                            , {field: 'dormitorio', title: '宿舍地址',hide:true}
+                                            , {field: 'instalaciones', title: '校区',hide:true}
+                                            , {field: 'integral', title: '积分', hide:true}
+                                            , {fixed: 'right', width: 231, align: 'center', toolbar: '#toolbarmin'}
+
+                                        ]]
+                                });
+                            }
+                            else if(req.code===0)
+                            {
+                                layer.alert(req.msg,{icon:5});
+                            }
+                        },
+                        error:function(){
+                            layer.alert("系统繁忙",{icon: 5})
+                        }
+                    });
+
+                    // console.log(checkStatus.data[1]);
+                }
+                    break;
+                case 'delete':
+                {
+                    if(checkStatus.data.length===0)
+                    {
+                        layer.msg("操作对象不能为空",{icon:2})
+                        return;
+                    }
+                    let arrys=[];
+                    checkStatus.data.forEach(i=>{
+                        arrys.push(i.id);
+                    })
+                    $.ajax({
+                        url:"/aijieshe/delete_listresource/user",    //请求的url地址
+                        dataType:"json",   //返回格式为json
+                        async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+                        data:{"arrys":arrys},    //参数值
+                        type:"POST",   //请求方式
+                        traditional: true,
+                        success:function(req){
+                            if(req.code===1)
+                            {
+                                layer.alert(req.msg,{icon:1});
+                                table.reload('tablereload', {
+                                    height: 500
+                                    , url: '/aijieshe/getresource/user' //数据接口
+                                    , page: true //开启分页
+                                    ,limit: 7
+                                    ,toolbar: '#toolbarhead'
+                                    , defaultToolbar: [ 'print', 'exports' ]
+                                    ,loading:true
+                                    ,even: true //开启隔行背景
+                                    , cols: [
+                                        [ //表头
+                                            {field: 'aa', type:'numbers'}
+                                            ,{field: 'aa',type:'checkbox'}
+                                            ,{field: 'id', title: '用户编号', width: 144, sort: true,unresize:true}
+                                            , {field: 'real_name', title: '用户姓名', width: 141,unresize:true}
+                                            , {field: 'user_name', title: '用户名称', width: 156,unresize:true}
+                                            , {field: 'phone', title: '手机号码', width: 147, sort: true,unresize:true}
+                                            , {field: 'password', title: '密码', width: 146, sort: true,unresize:true}
+                                            , {field: 'sex', title: '性别',hide:true}
+                                            , {field: 'mail', title: '邮箱',hide:true}
+                                            , {field: 'create_time', title: '创建时间', hide:true}
+                                            , {field: 'state', title: '状态', hide:true}
+                                            , {field: 'dormitorio', title: '宿舍地址',hide:true}
+                                            , {field: 'instalaciones', title: '校区',hide:true}
+                                            , {field: 'integral', title: '积分', hide:true}
+                                            , {fixed: 'right', width: 231, align: 'center', toolbar: '#toolbarmin'}
+
+                                        ]]
+                                });
+                            }
+                            else if(req.code===0)
+                            {
+                                layer.alert(req.msg,{icon:5});
+                            }
+                        },
+                        error:function(){
+                            layer.alert("系统繁忙",{icon: 5})
+                        }
+                    });
+
+                }
+                    break;
+                case 'edit':
+                    {
+                        if(checkStatus.data.length>1)
+                        {
+                            layer.msg("操作对象过多",{icon:2})
+                            return;
+                        }
+                        else if(checkStatus.data.length===0)
+                        {
+                            layer.msg("请选择要操作对象",{icon:3})
+                            return;
+                        }
+                        layer.prompt({
+                            formType: 0,
+                            value: '',
+                            title: '请输入新密码',
+                            area: ['500px', '350px'] //自定义文本域宽高
+                        }, function(value, index, elem){
+                            var id=checkStatus.data[0].id;
+                            $.ajax({
+                                url:"/aijieshe/update_passwordresource/user",    //请求的url地址
+                                dataType:"json",   //返回格式为json
+                                async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+                                data:{"id":id,"value":value},    //参数值
+                                type:"POST",   //请求方式
+                                traditional: true,
+                                success:function(req){
+                                    if(req.code===1)
+                                    {
+                                        layer.alert(req.msg,{icon:1});
+                                        table.reload('tablereload', {
+                                            height: 500
+                                            , url: '/aijieshe/getresource/user' //数据接口
+                                            , page: true //开启分页
+                                            ,limit: 7
+                                            ,toolbar: '#toolbarhead'
+                                            , defaultToolbar: [ 'print', 'exports' ]
+                                            ,loading:true
+                                            ,even: true //开启隔行背景
+                                            , cols: [
+                                                [ //表头
+                                                    {field: 'aa', type:'numbers'}
+                                                    ,{field: 'aa',type:'checkbox'}
+                                                    ,{field: 'id', title: '用户编号', width: 144, sort: true,unresize:true}
+                                                    , {field: 'real_name', title: '用户姓名', width: 141,unresize:true}
+                                                    , {field: 'user_name', title: '用户名称', width: 156,unresize:true}
+                                                    , {field: 'phone', title: '手机号码', width: 147, sort: true,unresize:true}
+                                                    , {field: 'password', title: '密码', width: 146, sort: true,unresize:true}
+                                                    , {field: 'sex', title: '性别',hide:true}
+                                                    , {field: 'mail', title: '邮箱',hide:true}
+                                                    , {field: 'create_time', title: '创建时间', hide:true}
+                                                    , {field: 'state', title: '状态', hide:true}
+                                                    , {field: 'dormitorio', title: '宿舍地址',hide:true}
+                                                    , {field: 'instalaciones', title: '校区',hide:true}
+                                                    , {field: 'integral', title: '积分', hide:true}
+                                                    , {fixed: 'right', width: 231, align: 'center', toolbar: '#toolbarmin'}
+
+                                                ]]
+                                        });
+                                    }
+                                    else if(req.code===0)
+                                    {
+                                        layer.alert(req.msg,{icon:5});
+                                    }
+                                },
+                                error:function(){
+                                    layer.alert("系统繁忙",{icon: 5})
+                                }
+                            });
+                            layer.close(index);
+                        });
+                    }
+                    break;
+            };
+        });
+
+
+        //工具条
+        table.on('tool(user_toolbarhead)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+
+
+            if(layEvent === 'detail'){ //查看
+                //do somehing
+
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.alert('id:'+data.id+'<br>'
+                        +'姓名:'+data.real_name+'<br>'
+                        + '名称:'+data.user_name+'<br>'
+                        +'创建时间:'+data.createtime+'<br>'
+                        +'性别:'+data.sex+'<br>'
+                        +'邮箱:'+data.mail+'<br>'
+                        +'密码:'+data.password+'<br>'
+                        +'校区:'+data.instalaciones+'<br>'
+                        +'宿舍:'+data.dormitorio+'<br>'
+                        +'手机号码:'+data.phone+'<br>'
+                        +'积分:'+data.integral+'<br>'
+                        +'状态:'+data.state+'<br>'
+                        , function(index){
+                            //do something
+
+                            layer.close(index);
+                        });
+
+                });
+            } else if(layEvent === 'del'){ //删除
+                layer.confirm('是否删除id为：'+data.id, function(index){
+
+
+                    layer.close(index);
+                    //向服务端发送删除指令
+                    $.ajax({
+                        url:"/aijieshe/delresource/user",    //请求的url地址
+                        dataType:"json",   //返回格式为json
+                        async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+                        data:{"id":data.id},    //参数值
+                        type:"POST",   //请求方式
+                        success:function(req){
+                            if(req.code===1)
+                            {
+                                layer.alert(req.msg,{icon:1});
+                                table.reload('tablereload', {
+                                    height: 500
+                                , url: '/aijieshe/getresource/user' //数据接口
+                                , page: true //开启分页
+                                , limit: 7
+                                ,even: true //开启隔行背景
+                                    ,toolbar: '#toolbarhead'
+                                , defaultToolbar: [ 'print', 'exports']
+                                ,loading:true
+                                , cols: [
+                                [ //表头
+                                    {field: 'aa', type:'numbers'}
+                                    ,{field: 'aa',type:'checkbox'}
+                                    ,{field: 'id', title: '用户编号', width: 144, sort: true,unresize:true}
+                                    , {field: 'real_name', title: '用户姓名', width: 141,unresize:true}
+                                    , {field: 'user_name', title: '用户名称', width: 156,unresize:true}
+                                    , {field: 'phone', title: '手机号码', width: 147, sort: true,unresize:true}
+                                    , {field: 'password', title: '密码', width: 146, sort: true,unresize:true}
+                                    , {field: 'sex', title: '性别',hide:true}
+                                    , {field: 'mail', title: '邮箱',hide:true}
+                                    , {field: 'create_time', title: '创建时间', hide:true}
+                                    , {field: 'state', title: '状态', hide:true}
+                                    , {field: 'dormitorio', title: '宿舍地址',hide:true}
+                                    , {field: 'instalaciones', title: '校区',hide:true}
+                                    , {field: 'integral', title: '积分', hide:true}
+                                    , {fixed: 'right', width: 231, align: 'center', toolbar: '#toolbarmin'}
+
+                                ]]
+                                });
+                            }
+                            else if(req.code===0)
+                            {
+                                layer.alert(req.msg,{icon:5});
+                            }
+                        },
+                        error:function(){
+                            layer.alert("系统繁忙",{icon: 5})
+                        }
+                    });
+                });
+            } else if(layEvent === 'edit'){ //编辑
+                //do something
+
+                layer.open({
+                    type: 2,
+                    title: '编辑信息',
+                    content: '/aijieshe/getresource/get/form-user',
+                    area: ['1000px', '373px'],
+                    resize:false,
+                    btn: ['确定', '取消'],
+                    yes: function(index, layero) {
+                        //通过以下的方法获取回调的数值
+                        let id           = $(layero).find('iframe')[0].contentWindow.id.value;
+                        let real_name        = $(layero).find('iframe')[0].contentWindow.real_name.value;
+                        let user_name    = $(layero).find('iframe')[0].contentWindow.user_name.value;
+                        let sex          = $(layero).find('iframe')[0].contentWindow.sex.value;
+                        let mail          = $(layero).find('iframe')[0].contentWindow.mail.value;
+                        let create_time        = $(layero).find('iframe')[0].contentWindow.create_time.value;
+                        let state            = $(layero).find('iframe')[0].contentWindow.state.value;
+                        let phone           = $(layero).find('iframe')[0].contentWindow.phone.value;
+                        let password       = $(layero).find('iframe')[0].contentWindow.password.value;
+                        let dormitorio        = $(layero).find('iframe')[0].contentWindow.dormitorio.value;
+                        let instalaciones   = $(layero).find('iframe')[0].contentWindow.instalaciones.value;
+                        let integral             = $(layero).find('iframe')[0].contentWindow.integral.value;
+
+
+                        $.ajax({
+                            url:'/aijieshe/updataresource/user',
+                            type:"POST",
+                            dataType:'json',
+                            data:{
+                                "id":id          ,
+                                "real_name":real_name    ,
+                                "user_name":user_name   ,
+                                "sex":sex         ,
+                                "mail":mail         ,
+                                "create_time":create_time  ,
+                                "state":state        ,
+                                "phone":phone        ,
+                                "password":password     ,
+                                "dormitorio":dormitorio   ,
+                                "instalaciones":instalaciones,
+                                "integral":integral
+                            },
+                            success:function(res){
+                                if(res.code===1)
+                                    layer.msg(res.msg,{icon:1});
+                                else
+                                {
+                                    layer.msg(res.msg,{icon:5});
+                                    layer.close(index);
+                                }
+                            },
+                            error:function(res){
+                                layer.msg('系统繁忙，稍后再试！',{icon:5});
+                                layer.close(index);
+                            }
+                        })
+                        obj.update({
+                            id:id           ,
+                            real_name:real_name    ,
+                            user_name:user_name    ,
+                            sex:sex          ,
+                            mail:mail         ,
+                            create_time:create_time  ,
+                            state:state        ,
+                            phone:phone        ,
+                            password:password     ,
+                            dormitorio:dormitorio   ,
+                            instalaciones:instalaciones,
+                            integral:integral     ,
+                        });
+
+                        layer.close(index);
+                    }
+                    ,success: function(layero, index){
+
+                        var div = layero.find('iframe').contents();  // div.html() div里面的内容,不包含当前这个div
+
+                        var body = layer.getChildFrame('body', index);  // body.html() body里面的内容
+
+
+                        // var iframeWindow = window['layui-layer-iframe'+ index]   //得到iframe页的窗口对象
+                        // //通过test1.html中各个输入框的id可以进行赋值
+                        body.find("#id").val(data.id);
+                        body.find("#real_name").val(data.real_name);
+                        body.find("#user_name").val(data.user_name)
+                        body.find("#sex").val(data.sex)
+                        body.find("#mail").val(data.mail)
+                        body.find("#create_time").val(data.create_time)
+                        body.find("#state").val(data.state)
+                        body.find("#phone").val(data.phone)
+                        body.find("#password").val(data.password)
+                        body.find("#dormitorio").val(data.dormitorio)
+                        body.find("#instalaciones").val(data.instalaciones)
+                        body.find("#integral").val(data.integral)
+
+                    }
+
+                });
+                //同步更新缓存对应的值
+
+            } else if(layEvent === 'LAYTABLE_TIPS'){
+                layer.alert('Hi，头部工具栏扩展的右侧图标。');
+            }
+        });
+    })
+
+
+
+
+
+</script>
+</body>
+</html>
