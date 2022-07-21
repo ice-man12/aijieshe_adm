@@ -27,8 +27,9 @@ public class login_controller {
     private administrator_service impl;
 
     @RequestMapping("/")
-    public String first(){
-
+    public String first(HttpServletRequest request){
+        administrator adm= (administrator) request.getSession().getAttribute("administrator");
+        request.setAttribute("adm",adm);
         return "index";
     }
     @RequestMapping("/get/{path}")
@@ -38,7 +39,6 @@ public class login_controller {
     }
     @RequestMapping("/login")
     public String login(){
-        System.out.println("login");
         return "login";
     }
 

@@ -50,7 +50,7 @@ public class myinterceptor implements HandlerInterceptor {
             {
                administrator adm1= adm_dao.check(id,password);
 
-               if(adm1.getPassword().equals(password)&&adm1.getId().equals(id))
+               if(adm1!=null)
                {
                    request.getSession().setAttribute("administrator",adm1);
                    return true;
