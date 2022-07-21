@@ -47,9 +47,9 @@
                 <a class="timo-header-nickname" >[[${adm.name}]]<span class="layui-nav-more"></span></a>
                 <div class="layui-nav-child layui-anim layui-anim-upbit">
                     <div class="timo-nav-child-box">
-                        <div ><a class="open-popup" data-title="个人信息" data-size="680,464" data-url="404"><!--
+                        <div ><a id="detail_adm" data-title="个人信息" ><!--
               --><i class="fa fa-user-o"></i>个人信息</a></div>
-                        <div><a class="open-popup" data-title="修改密码" data-size="456,295" data-url="404"><!--
+                        <div><a id="edit_password" data-title="修改密码" ><!--
               --><i class="fa fa-lock" style="font-size:17px;width:12px;"></i>修改密码</a></div>
                         <div><a href="/aijieshe/loginout"><i class="fa fa-power-off"></i>退出登录</a></div>
                     </div>
@@ -109,6 +109,71 @@
         <div class="layui-tab-content"><div class="layui-tab-item layui-show"><iframe src="/aijieshe/get/welcome-1" frameborder="0" class="layui-layout-iframe"></iframe></div></div>
     </div>
 </div>
-<script src="/aijieshe/static/lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
+<script src="/aijieshe/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
 <script src="/aijieshe/static/js/main.js" charset="utf-8"></script>
+<script src="/aijieshe/static/js/plugins/jquery-3.3.1.min.js" charset="utf-8"></script>
+<script th:inline="javascript">
+    var data=[[${adm}]];
+    $('#detail_adm').on("click",function (){
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.alert('id:'+data.id+'<br>'
+                +'姓名:'+data.real_name+'<br>'
+                + '名称:'+data.user_name+'<br>'
+                +'创建时间:'+data.createtime+'<br>'
+                +'性别:'+data.sex+'<br>'
+                +'邮箱:'+data.mail+'<br>'
+                +'密码:'+data.password+'<br>'
+                +'校区:'+data.instalaciones+'<br>'
+                +'宿舍:'+data.dormitorio+'<br>'
+                +'手机号码:'+data.phone+'<br>'
+                +'积分:'+data.integral+'<br>'
+                +'状态:'+data.state+'<br>'
+                , function(index){
+                    //do something
+
+                    layer.close(index);
+                });
+
+        });
+    })
+    $('#edit_password').on("click",function (){
+        layer.prompt({
+            formType: 0,
+            value: '',
+            title: '请输入新密码',
+            area: ['500px', '350px'] //自定义文本域宽高
+        }, function(value, index, elem){
+            var id=data.id;
+            if (value==='')
+            {
+                layer.msg("密码不能为空");
+                return ;
+            }
+            $.ajax({
+                url:"/aijieshe/update_passwordresource/administrator",    //请求的url地址
+                dataType:"json",   //返回格式为json
+                async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+                data:{"id":id,"value":value},    //参数值
+                type:"POST",   //请求方式
+                traditional: true,
+                success:function(req){
+                    if(req.code===1)
+                    {
+                        layer.alert(req.msg,{icon:1});
+
+                    }
+                    else if(req.code===0)
+                    {
+                        layer.alert(req.msg,{icon:5});
+                    }
+                },
+                error:function(){
+                    layer.alert("系统繁忙",{icon: 5})
+                }
+            });
+            layer.close(index);
+        });
+    })
+</script>
 </body></html>

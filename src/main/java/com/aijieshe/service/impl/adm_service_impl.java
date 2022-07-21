@@ -59,4 +59,9 @@ public class adm_service_impl implements administrator_service {
     public int delete_list(List<HashMap<String, String>> deleteMap) {
         return adm_dao.delete_list(deleteMap);
     }
+
+    @Override
+    public int update_password(String id, String password) {
+        return adm_dao.update_password(id,password);
+    }
 }

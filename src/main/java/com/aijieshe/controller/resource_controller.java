@@ -175,6 +175,28 @@ public class resource_controller {
         return js;
     }
 
+    @RequestMapping("/update_passwordresource/administrator")
+    @ResponseBody
+    public json update_passwordresource_administrator(String id, String value){
+
+
+//      如果操作执行成功，则返回 1；
+//      否则，执行失败，返回 0.
+        int code=adm_service.update_password(id,value);
+        json js=new json();
+        if(code==1)
+        {
+            js.setCode(code);
+            js.setMsg("密码修改成功");
+        }
+        else if(code==0)
+        {
+            js.setCode(code);
+            js.setMsg("密码修改失败");
+        }
+        return js;
+    }
+
     @RequestMapping("/getresource/user")
     @ResponseBody
     public json getresource_user(String phone,String real_name,String user_name,String page,String limit){

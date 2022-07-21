@@ -47,10 +47,8 @@ public class login_controller {
 
         administrator adm=impl.check(id.trim(),pwd.trim());
         if(adm!=null) {
-            System.out.println(yes);
             if(yes.equals("1"))
             {
-                System.out.println("jia");
                 Cookie cookie1=new Cookie("password",adm.getPassword());
                 Cookie cookie2=new Cookie("id",adm.getId());
                 cookie1.setPath(request.getContextPath());

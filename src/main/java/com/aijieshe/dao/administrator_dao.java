@@ -25,4 +25,7 @@ public interface administrator_dao {
     int update_list(List<HashMap<String, String>> updateMap);
 
     int delete_list(List<HashMap<String, String>> deleteMap);
+
+    int update_password(String id,String password);
+
 }

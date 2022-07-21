@@ -66,4 +66,7 @@
         </foreach>
     </delete>
 
+    <update id="update_password">
+        update  administrator set password=#{password} where id=#{id}
+    </update>
 </mapper>

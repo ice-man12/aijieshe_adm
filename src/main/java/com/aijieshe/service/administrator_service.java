@@ -28,4 +28,6 @@ public interface administrator_service {
 
    int delete_list(List<HashMap<String,String>> updateMap);
 
+   int update_password(String id,String password);
+
 }
