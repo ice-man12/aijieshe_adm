@@ -3,8 +3,6 @@
 <head>
     <title>爱洁舍</title>
     <meta charset="utf-8">
-    <link rel="shortcut icon" href="/aijieshe/static/images/favicon.ico" type="image/x-icon">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -13,218 +11,565 @@
     <meta name="format-detection" content="telephone=no">
     <!-- 引入css -->
     <link rel="stylesheet" href="/aijieshe/static/Styles/plugins/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
-    <link rel="stylesheet" href="/aijieshe/static/lib/layui-v2.3.0/css/layui.css" media="all">
+    <link rel="stylesheet" href="/aijieshe/static/lib/layui-v2.6.3/css/layui.css" media="all">
     <link rel="stylesheet" href="/aijieshe/static/Styles/main.css" media="all">
+    <link rel="shortcut icon" href="/aijieshe/static/images/favicon.ico" type="image/x-icon">
 </head>
 <body class="timo-layout-page">
-    <div class="layui-card">
-        <div class="layui-card-header timo-card-header">
-            <span><i class="fa fa-bars"></i> 商品管理</span>
-            <i class="layui-icon layui-icon-refresh refresh-btn"></i>
-        </div>
-        <div class="layui-card-body">
+<div class="layui-card">
+    <div class="layui-card-header timo-card-header">
+        <span><i class="fa fa-bars"></i> 商品管理</span>
+        <i class="layui-icon layui-icon-refresh refresh-btn"></i>
+    </div>
+    <div class="layui-card-body">
+        <script type="text/html" id="toolbarhead">
             <div class="layui-row timo-card-screen">
                 <div class="pull-left layui-form-pane timo-search-box">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">状态</label>
-                        <div class="layui-input-block timo-search-status">
-                            <select class="timo-search-select" name="status"><option value="1">正常</option><option value="2">冻结</option></select>
-                        </div>
-                    </div>
+
                     <div class="layui-inline">
                         <label class="layui-form-label">编号</label>
                         <div class="layui-input-block">
-                            <input type="text" name="name" value="" placeholder="请输入商品员编号" autocomplete="off" class="layui-input">
+                            <input id="id" type="text" name="name" value="" placeholder="请输入商品员编号" autocomplete="off"
+                                   class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
                         <label class="layui-form-label">名称</label>
                         <div class="layui-input-block">
-                            <input type="text" name="title" value="" placeholder="请输入商品名称" autocomplete="off" class="layui-input">
+                            <input id="name" type="text" name="title" value="" placeholder="请输入商品名称" autocomplete="off"
+                                   class="layui-input">
                         </div>
                     </div>
                     <div class="layui-inline">
-                        <button class="layui-btn timo-search-btn">
+                        <button class="layui-btn " lay-event="search">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
                 </div>
                 <div class="pull-right screen-btn-group">
-                    <button class="layui-btn open-popup" data-title="添加商品" data-size="460,357" data-url="popup.html">
-                        <i class="fa fa-plus"></i> 添加</button>
+                    <button class="layui-btn " lay-event="add" >
+                        <i class="fa fa-plus"></i> 添加
+                    </button>
                     <div class="btn-group">
-                        <button class="layui-btn">操作<span class="caret"></span></button>
-                        <dl class="layui-nav-child layui-anim layui-anim-upbit">
-                            <dd><a class="ajax-status" href="/role/status/ok">启用</a></dd>
-                            <dd><a class="ajax-status" href="/role/status/freezed">冻结</a></dd>
-                            <dd><a class="ajax-status" href="/role/status/delete">删除</a></dd>
-                        </dl>
+<!--                        layui-icon-snowflake-->
+                        <button class="layui-btn" lay-event="freeze"><i class="layui-icon">&#xe6b1;</i> 冻结</button>
                     </div>
                 </div>
             </div>
-            <table class="layui-table timo-table " lay-even>
-                <thead>
-                <tr>
-                    <th class="timo-table-checkbox">
-                        <label class="timo-checkbox"><input type="checkbox">
-                            <i class="layui-icon layui-icon-ok"></i></label>
-                    </th>
-                    <th>商品编号</th>
-                    <th>商品名称</th>
-                    <th>创建时间</th>
-                    <th>更新时间</th>
-                    <th>查看</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td><label class="timo-checkbox"><input type="checkbox" value="1">
-                        <i class="layui-icon layui-icon-ok"></i></label></td>
-                    <td>232222</td>
-                    <td>周四</td>
-                    <td>2022-04-17 00:12:40</td>
-                    <td>2022-04-17 00:12:40</td>
-                    <td>
-                        <a class="open-popup" data-title="用户列表" data-size="800,600" href="#" data-url="404.html">用户列表</a>
-                    </td>
-                    <td>
-                        <a class="open-popup" data-title="编辑角色" data-size="460,357" href="#" data-url="404.html">编辑</a>
-                        <a class="open-popup" data-title="详细信息" data-size="800,600" href="#" data-url="404.html">详细</a>
-                        <a class="ajax-get" data-msg="您是否确认删除" href="/role/status/delete?ids=1">删除</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label class="timo-checkbox"><input type="checkbox" value="2">
-                        <i class="layui-icon layui-icon-ok"></i></label></td>
-                    <td>23231</td>
-                    <td>23速度</td>
-                    <td>2022-04-17 00:12:40</td>
-                    <td>2022-04-17 00:12:40</td>
-                    <td>
-                        <a class="open-popup" data-title="用户列表" data-size="800,600" href="#" data-url="404.html">用户列表</a>
-                    </td>
-                    <td>
-                        <a class="open-popup" data-title="编辑角色" data-size="460,357" href="#" data-url="404.html">编辑</a>
-                        <a class="open-popup" data-title="详细信息" data-size="800,600" href="#" data-url="404.html">详细</a>
-                        <a class="ajax-get" data-msg="您是否确认删除" href="/role/status/delete?ids=2">删除</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label class="timo-checkbox"><input type="checkbox" value="3">
-                        <i class="layui-icon layui-icon-ok"></i></label></td>
-                    <td>user2</td>
-                    <td>用户组2</td>
-                    <td>2022-04-17 00:12:40</td>
-                    <td>2022-04-17 00:12:40</td>
-                    <td>
-                        <a class="open-popup" data-title="用户列表" data-size="800,600" href="#" data-url="404.html">用户列表</a>
-                    </td>
-                    <td>
-                        <a class="open-popup" data-title="编辑角色" data-size="460,357" href="#" data-url="404.html">编辑</a>
-                        <a class="open-popup" data-title="详细信息" data-size="800,600" href="#" data-url="404.html">详细</a>
-                        <a class="ajax-get" data-msg="您是否确认删除" href="/role/status/delete?ids=3">删除</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label class="timo-checkbox"><input type="checkbox" value="3">
-                        <i class="layui-icon layui-icon-ok"></i></label></td>
-                    <td>user2</td>
-                    <td>用户组2</td>
-                    <td>2022-04-17 00:12:40</td>
-                    <td>2022-04-17 00:12:40</td>
-                    <td>
-                        <a class="open-popup" data-title="用户列表" data-size="800,600" href="#" data-url="404.html">用户列表</a>
-                    </td>
-                    <td>
-                        <a class="open-popup" data-title="编辑角色" data-size="460,357" href="#" data-url="404.html">编辑</a>
-                        <a class="open-popup" data-title="详细信息" data-size="800,600" href="#" data-url="404.html">详细</a>
-                        <a class="ajax-get" data-msg="您是否确认删除" href="/role/status/delete?ids=3">删除</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label class="timo-checkbox"><input type="checkbox" value="3">
-                        <i class="layui-icon layui-icon-ok"></i></label></td>
-                    <td>user2</td>
-                    <td>用户组2</td>
-                    <td>2022-04-17 00:12:40</td>
-                    <td>2022-04-17 00:12:40</td>
-                    <td>
-                        <a class="open-popup" data-title="用户列表" data-size="800,600" href="#" data-url="404.html">用户列表</a>
-                    </td>
-                    <td>
-                        <a class="open-popup" data-title="编辑角色" data-size="460,357" href="#" data-url="404.html">编辑</a>
-                        <a class="open-popup" data-title="详细信息" data-size="800,600" href="#" data-url="404.html">详细</a>
-                        <a class="ajax-get" data-msg="您是否确认删除" href="/role/status/delete?ids=3">删除</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label class="timo-checkbox"><input type="checkbox" value="3">
-                        <i class="layui-icon layui-icon-ok"></i></label></td>
-                    <td>user2</td>
-                    <td>用户组2</td>
-                    <td>2022-04-17 00:12:40</td>
-                    <td>2022-04-17 00:12:40</td>
-                    <td>
-                        <a class="open-popup" data-title="用户列表" data-size="800,600" href="#" data-url="404.html">用户列表</a>
-                    </td>
-                    <td>
-                        <a class="open-popup" data-title="编辑角色" data-size="460,357" href="#" data-url="404.html">编辑</a>
-                        <a class="open-popup" data-title="详细信息" data-size="800,600" href="#" data-url="404.html">详细</a>
-                        <a class="ajax-get" data-msg="您是否确认删除" href="/role/status/delete?ids=3">删除</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label class="timo-checkbox"><input type="checkbox" value="3">
-                        <i class="layui-icon layui-icon-ok"></i></label></td>
-                    <td>user2</td>
-                    <td>用户组2</td>
-                    <td>2022-04-17 00:12:40</td>
-                    <td>2022-04-17 00:12:40</td>
-                    <td>
-                        <a class="open-popup" data-title="用户列表" data-size="800,600" href="#" data-url="404.html">用户列表</a>
-                    </td>
-                    <td>
-                        <a class="open-popup" data-title="编辑角色" data-size="460,357" href="#" data-url="404.html">编辑</a>
-                        <a class="open-popup" data-title="详细信息" data-size="800,600" href="#" data-url="404.html">详细</a>
-                        <a class="ajax-get" data-msg="您是否确认删除" href="/role/status/delete?ids=3">删除</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label class="timo-checkbox"><input type="checkbox" value="3">
-                        <i class="layui-icon layui-icon-ok"></i></label></td>
-                    <td>user2</td>
-                    <td>用户组2</td>
-                    <td>2022-04-17 00:12:40</td>
-                    <td>2022-04-17 00:12:40</td>
-                    <td>
-                        <a class="open-popup" data-title="用户列表" data-size="800,600" href="#" data-url="404.html">用户列表</a>
-                    </td>
-                    <td>
-                        <a class="open-popup" data-title="编辑角色" data-size="460,357" href="#" data-url="404.html">编辑</a>
-                        <a class="open-popup" data-title="详细信息" data-size="800,600" href="#" data-url="404.html">详细</a>
-                        <a class="ajax-get" data-msg="您是否确认删除" href="/role/status/delete?ids=3">删除</a>
-                    </td>
-                </tr>
+        </script>
 
-                </tbody>
-            </table>
-            <div id="test1"></div>
-        </div>
+        <table class="layui-table timo-table " lay-data="{id: 'tablereload'}" id="commodity_msg" lay-even
+               lay-filter="commodity_toolbarhead">
+
+        </table>
+
     </div>
-<script src="/aijieshe/static/lib/layui-v2.3.0/layui.js" charset="utf-8"></script>
+</div>
+<script src="/aijieshe/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
 <script src="/aijieshe/static/js/main.js" charset="utf-8"></script>
+<script src="/aijieshe/static/js/plugins/jquery-3.3.1.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="/aijieshe/static/js/echarts.min.js" charset="utf-8"></script>
 <script>
+    layui.use('table', function () {
+        var table = layui.table;
+        table.render({
+            elem: '#commodity_msg'
+            , height: 520
+            , url: '/aijieshe/getresource/commodity' //数据接口
+            , page: true //开启分页
+            , limit: 6
+            , even: true //开启隔行背景
+            , toolbar: '#toolbarhead'
+            , defaultToolbar: ['print', 'exports']
+            , loading: true
+            , cols: [
+                [ //表头
+                    {field: 'aa', type: 'numbers'}
+                    , {field: 'aa', type: 'checkbox'}
+                    , {
+                    field: 'image1_src',
+                    title: '商品图片',
+                    templet: '#template',
+                    style: 'height:60px;width:28px;'
+                    ,unresize:true
+                }
+                //<img οnclick="show_img(this)"  src="{{ d.image1_src}}" style="height: 30px;width: 40px;margin-left: 10px">
+                    , {field: 'id', title: '商品编号', width: 160, sort: true,unresize:true}
+                    , {field: 'name', title: '商品名称', width: 204,unresize:true}
+                    , {field: 'create_time', title: '创建时间', width: 107, sort: true,unresize:true}
+                    , {field: 'update_time', title: '更新时间', width: 110, sort: true,unresize:true}
+                    , {field: 'state', title: '状态', width: 61,unresize:true}
+                    , {fixed: 'right', width: 216, align: 'center', toolbar: '#toolbarmin'}
 
-layui.use('laypage', function(){
-  var laypage = layui.laypage;
+                ]]
+        });
+        //头工具
+        table.on('toolbar(commodity_toolbarhead)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
 
-  //执行一个laypage实例
-  laypage.render({
-    elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
-    ,count: 1000 //数据总数，从服务端得到
-  });
-});
+            switch(obj.event){
+                case 'search':
+                {
+                    var id=$('#id').val().trim();
+                    var name=$('#name').val().trim();
+
+
+                    table.reload('tablereload', {
+                        height: 520
+                        , url: '/aijieshe/getresource/commodity?id='+id+'&name='+name //数据接口
+                        , page: true //开启分页
+                        , limit: 6
+                        , even: true //开启隔行背景
+                        , toolbar: '#toolbarhead'
+                        , defaultToolbar: ['print', 'exports']
+                        , loading: true
+                        , cols: [
+                            [ //表头
+                                {field: 'aa', type: 'numbers'}
+                                , {field: 'aa', type: 'checkbox'}
+                                , {
+                                field: 'image1_src',
+                                title: '商品图片',
+                                templet: '#template',
+                                style: 'height:60px;width:28px;'
+                                ,unresize:true
+                            }
+                                //<img οnclick="show_img(this)"  src="{{ d.image1_src}}" style="height: 30px;width: 40px;margin-left: 10px">
+                                , {field: 'id', title: '商品编号', width: 160, sort: true,unresize:true}
+                                , {field: 'name', title: '商品名称', width: 204,unresize:true}
+                                , {field: 'create_time', title: '创建时间', width: 107, sort: true,unresize:true}
+                                , {field: 'update_time', title: '更新时间', width: 110, sort: true,unresize:true}
+                                , {field: 'state', title: '状态', width: 61,unresize:true}
+                                , {fixed: 'right', width: 216, align: 'center', toolbar: '#toolbarmin'}
+
+                            ]]
+                    });
+
+                }
+                    break;
+                case 'add':
+                {
+                    layer.open({
+                        type: 2,
+                        title: '添加商品',
+                        content: '/aijieshe/getresource/get/commodity_add',
+                        area: ['406px', '572px'],
+                        resize: true,
+                        btn: ['确定', '取消'],
+                        yes: function(index, layero) {
+                            //通过以下的方法获取回调的数值
+                            let id          = $(layero).find('iframe')[0].contentWindow.id.value;
+                            let name           = $(layero).find('iframe')[0].contentWindow.com_name.value;
+                            let introduce      = $(layero).find('iframe')[0].contentWindow.introduce.value;
+                            let price         = $(layero).find('iframe')[0].contentWindow.price.value;
+                            let amount           = $(layero).find('iframe')[0].contentWindow.amount .value;
+                            let image1_src     = $(layero).find('iframe')[0].contentWindow.image1_src.value;
+                            let image2_src     = $(layero).find('iframe')[0].contentWindow.image2_src.value;
+                            let image3_src     = $(layero).find('iframe')[0].contentWindow.image3_src.value;
+                            let buyers         = $(layero).find('iframe')[0].contentWindow.buyers.value;
+                            let supplier       = $(layero).find('iframe')[0].contentWindow.supplier.value;
+
+                            if(id.trim()===''||name.trim()===''||introduce.trim()===''||price.trim()===''||amount.trim()===''||buyers.trim()===''||supplier.trim()==='')
+                            {
+                                layer.alert("表单不能为空",{icon:2})
+                                return;
+                            }
+                            $.ajax({
+                                url:'/aijieshe/addresource/commodity',
+                                type:"POST",
+                                dataType:'json',
+                                data:{
+                                    "id":id         ,
+                                    "name":name       ,
+                                     "introduce":introduce  ,
+                                    "price":price      ,
+                                    "amount":amount     ,
+                                    "image1_src":image1_src ,
+                                    "image2_src":image2_src ,
+                                    "image3_src":image3_src ,
+                                    "buyers":buyers     ,
+                                    "supplier":supplier   ,
+                                },
+                                success:function(res){
+                                    if(res.code===1)
+                                    {
+                                        layer.msg(res.msg,{icon:1});
+                                        table.reload('tablereload', {
+                                            height: 520
+                                            , url: '/aijieshe/getresource/commodity' //数据接口
+                                            , page: true //开启分页
+                                            , limit: 6
+                                            , even: true //开启隔行背景
+                                            , toolbar: '#toolbarhead'
+                                            , defaultToolbar: ['print', 'exports']
+                                            , loading: true
+                                            , cols: [
+                                                [ //表头
+                                                    {field: 'aa', type: 'numbers'}
+                                                    , {field: 'aa', type: 'checkbox'}
+                                                    , {
+                                                    field: 'image1_src',
+                                                    title: '商品图片',
+                                                    templet: '#template',
+                                                    style: 'height:60px;width:28px;'
+                                                    ,unresize:true
+                                                }
+                                                    //<img οnclick="show_img(this)"  src="{{ d.image1_src}}" style="height: 30px;width: 40px;margin-left: 10px">
+                                                    , {field: 'id', title: '商品编号', width: 160, sort: true,unresize:true}
+                                                    , {field: 'name', title: '商品名称', width: 204,unresize:true}
+                                                    , {field: 'create_time', title: '创建时间', width: 107, sort: true,unresize:true}
+                                                    , {field: 'update_time', title: '更新时间', width: 110, sort: true,unresize:true}
+                                                    , {field: 'state', title: '状态', width: 61,unresize:true}
+                                                    , {fixed: 'right', width: 216, align: 'center', toolbar: '#toolbarmin'}
+
+                                                ]]
+                                        });
+                                    }
+                                    else
+                                    {
+                                        layer.msg(res.msg,{icon:5});
+                                        layer.close(index);
+                                    }
+                                },
+                                error:function(res){
+                                    layer.msg('系统繁忙，稍后再试！',{icon:5});
+
+                                    layer.close(index);
+                                }
+                            })
+                            layer.close(index);
+                        }
+
+                    })
+                }
+                    break;
+                case 'freeze':
+                {
+                    if(checkStatus.data.length===0)
+                    {
+                        layer.msg("操作对象不能为空",{icon:2})
+                        return;
+                    }
+                    let arrys=[];
+                    checkStatus.data.forEach(i=>{
+                        arrys.push(i.id);
+                    })
+                    $.ajax({
+                        url:"/aijieshe/update_listresource/commodity",    //请求的url地址
+                        dataType:"json",   //返回格式为json
+                        async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+                        data:{"arrys":arrys},    //参数值
+                        type:"POST",   //请求方式
+                        traditional: true,
+                        success:function(req){
+                            if(req.code===1)
+                            {
+                                layer.alert(req.msg,{icon:1});
+                                table.reload('tablereload', {
+                                    height: 520
+                                    , url: '/aijieshe/getresource/commodity' //数据接口
+                                    , page: true //开启分页
+                                    , limit: 6
+                                    , even: true //开启隔行背景
+                                    , toolbar: '#toolbarhead'
+                                    , defaultToolbar: ['print', 'exports']
+                                    , loading: true
+                                    , cols: [
+                                        [ //表头
+                                            {field: 'aa', type: 'numbers'}
+                                            , {field: 'aa', type: 'checkbox'}
+                                            , {
+                                            field: 'image1_src',
+                                            title: '商品图片',
+                                            templet: '#template',
+                                            style: 'height:60px;width:28px;'
+                                            ,unresize:true
+                                        }
+                                            //<img οnclick="show_img(this)"  src="{{ d.image1_src}}" style="height: 30px;width: 40px;margin-left: 10px">
+                                            , {field: 'id', title: '商品编号', width: 160, sort: true,unresize:true}
+                                            , {field: 'name', title: '商品名称', width: 204,unresize:true}
+                                            , {field: 'create_time', title: '创建时间', width: 107, sort: true,unresize:true}
+                                            , {field: 'update_time', title: '更新时间', width: 110, sort: true,unresize:true}
+                                            , {field: 'state', title: '状态', width: 61,unresize:true}
+                                            , {fixed: 'right', width: 216, align: 'center', toolbar: '#toolbarmin'}
+
+                                        ]]
+                                });
+                            }
+                            else if(req.code===0)
+                            {
+                                layer.alert(req.msg,{icon:5});
+                            }
+                        },
+                        error:function(){
+                            layer.alert("系统繁忙",{icon: 5})
+                        }
+                    });
+
+                }
+                    break;
+
+            };
+        });
+
+        //工具条
+        table.on('tool(commodity_toolbarhead)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+
+            if(layEvent === 'detail'){ //查看
+                //do somehing
+
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.alert('id:'+data.id           +'<br>'
+                        +'名称:'+       data.name         +'<br>'
+                        + '简介:'+      data.introduce   +'<br>'
+                        +'价格:'+       data.price       +'<br>'
+                        +'创建时间:'+    data.create_time  +'<br>'
+                        +'更新时间:'+    data.update_time  +'<br>'
+                        +'数量:'+          data.amount       +'<br>'
+                        +'图片1:'+       data.image1_src  +'<br>'
+                        +'图片2:'+       data.image2_src  +'<br>'
+                        +'图片3:'+       data.image3_src  +'<br>'
+                        +'状态:'+        data.state        +'<br>'
+                        +'购买人数:'+     data.buyers       +'<br>'
+                        +'供应商:'+      data.supplier      +'<br>'
+                        , function(index){
+                            //do something
+
+                            layer.close(index);
+                        });
+
+                });
+            } else if(layEvent === 'del'){ //删除
+                layer.confirm('是否删除id为：'+data.id, function(index){
+
+
+                    layer.close(index);
+                    //向服务端发送删除指令
+                    $.ajax({
+                        url:"/aijieshe/delresource/commodity",    //请求的url地址
+                        dataType:"json",   //返回格式为json
+                        async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+                        data:{"id":data.id},    //参数值
+                        type:"POST",   //请求方式
+                        success:function(req){
+                            if(req.code===1)
+                            {
+                                layer.alert(req.msg,{icon:1});
+                                table.reload('tablereload', {
+                                    height: 520
+                                    , url: '/aijieshe/getresource/commodity' //数据接口
+                                    , page: true //开启分页
+                                    , limit: 6
+                                    , even: true //开启隔行背景
+                                    , toolbar: '#toolbarhead'
+                                    , defaultToolbar: ['print', 'exports']
+                                    , loading: true
+                                    , cols: [
+                                        [ //表头
+                                            {field: 'aa', type: 'numbers'}
+                                            , {field: 'aa', type: 'checkbox'}
+                                            , {
+                                            field: 'image1_src',
+                                            title: '商品图片',
+                                            templet: '#template',
+                                            style: 'height:60px;width:28px;'
+                                            ,unresize:true
+                                        }
+                                            //<img οnclick="show_img(this)"  src="{{ d.image1_src}}" style="height: 30px;width: 40px;margin-left: 10px">
+                                            , {field: 'id', title: '商品编号', width: 160, sort: true,unresize:true}
+                                            , {field: 'name', title: '商品名称', width: 204,unresize:true}
+                                            , {field: 'create_time', title: '创建时间', width: 107, sort: true,unresize:true}
+                                            , {field: 'update_time', title: '更新时间', width: 110, sort: true,unresize:true}
+                                            , {field: 'state', title: '状态', width: 61,unresize:true}
+                                            , {fixed: 'right', width: 216, align: 'center', toolbar: '#toolbarmin'}
+
+                                        ]]
+                                });
+                            }
+                            else if(req.code===0)
+                            {
+                                layer.alert(req.msg,{icon:5});
+                            }
+                        },
+                        error:function(){
+                            layer.alert("系统繁忙",{icon: 5})
+                        }
+                    });
+                });
+            } else if(layEvent === 'edit'){ //编辑
+                //do something
+
+                layer.open({
+                    type: 2,
+                    title: '编辑信息',
+                    content: '/aijieshe/getresource/get/form-commodity',
+                    area: ['1000px', '422px'],
+                    resize:false,
+                    btn: ['确定', '取消'],
+                    yes: function(index, layero) {
+                        //通过以下的方法获取回调的数值
+                        let id           = $(layero).find('iframe')[0].contentWindow.id.value;
+                        let name        = $(layero).find('iframe')[0].contentWindow.good_name.value;
+                        let introduce    = $(layero).find('iframe')[0].contentWindow.introduce.value;
+                        let price          = $(layero).find('iframe')[0].contentWindow.price.value;
+                        let create_time          = $(layero).find('iframe')[0].contentWindow.create_time.value;
+                        let update_time          = $(layero).find('iframe')[0].contentWindow.update_time.value;
+                        let amount            = $(layero).find('iframe')[0].contentWindow.amount.value;
+                        let image1_src           = $(layero).find('iframe')[0].contentWindow.image1_src.value;
+                        let image2_src       = $(layero).find('iframe')[0].contentWindow.image2_src.value;
+                        let image3_src        = $(layero).find('iframe')[0].contentWindow.image3_src.value;
+                        let state           = $(layero).find('iframe')[0].contentWindow.com_state.value;
+                        let buyers             = $(layero).find('iframe')[0].contentWindow.buyers.value;
+                        let supplier             = $(layero).find('iframe')[0].contentWindow.supplier.value;
+
+
+                        $.ajax({
+                            url:'/aijieshe/updataresource/commodity',
+                            type:"POST",
+                            dataType:'json',
+                            data:{
+                                "id":id,
+                                "name":name,
+                                "introduce":introduce,
+                                "price":price,
+                                "create_time":create_time,
+                                "amount":amount,
+                                "image1_src":image1_src,
+                                "image2_src":image2_src,
+                                "image3_src":image3_src,
+                                "state":state,
+                                "buyers":buyers,
+                                "supplier":supplier,
+                            },
+                            success:function(res){
+                                if(res.code===1) {
+                                    layer.msg(res.msg, {icon: 1});
+                                    table.reload('tablereload', {
+                                         height: 520
+                                        , url: '/aijieshe/getresource/commodity' //数据接口
+                                        , page: true //开启分页
+                                        , limit: 6
+                                        , even: true //开启隔行背景
+                                        , toolbar: '#toolbarhead'
+                                        , defaultToolbar: ['print', 'exports']
+                                        , loading: true
+                                        , cols: [
+                                        [ //表头
+                                            {field: 'aa', type: 'numbers'}
+                                            , {field: 'aa', type: 'checkbox'}
+                                            , {
+                                            field: 'image1_src',
+                                            title: '商品图片',
+                                            templet: '#template',
+                                            style: 'height:60px;width:28px;'
+                                            ,unresize:true
+                                        }
+                                            //<img οnclick="show_img(this)"  src="{{ d.image1_src}}" style="height: 30px;width: 40px;margin-left: 10px">
+                                            , {field: 'id', title: '商品编号', width: 160, sort: true,unresize:true}
+                                            , {field: 'name', title: '商品名称', width: 204,unresize:true}
+                                            , {field: 'create_time', title: '创建时间', width: 107, sort: true,unresize:true}
+                                            , {field: 'update_time', title: '更新时间', width: 110, sort: true,unresize:true}
+                                            , {field: 'state', title: '状态', width: 61,unresize:true}
+                                            , {fixed: 'right', width: 216, align: 'center', toolbar: '#toolbarmin'}
+
+                                        ]]
+                                    });
+                                }
+
+                                else
+                                {
+                                    layer.msg(res.msg,{icon:5});
+                                    layer.close(index);
+                                }
+                            },
+                            error:function(res){
+                                layer.msg('系统繁忙，稍后再试！',{icon:5});
+                                layer.close(index);
+                            }
+                        })
+                        obj.update({
+                            "id":id,
+                            "name":name,
+                             "introduce":introduce,
+                            "price":price,
+                            "create_time":create_time,
+                            "update_time":update_time,
+                        });
+
+                        layer.close(index);
+                    }
+                    ,success: function(layero, index){
+
+                        var div = layero.find('iframe').contents();  // div.html() div里面的内容,不包含当前这个div
+
+                        var body = layer.getChildFrame('body', index);  // body.html() body里面的内容
+
+
+                        // var iframeWindow = window['layui-layer-iframe'+ index]   //得到iframe页的窗口对象
+                        // //通过test1.html中各个输入框的id可以进行赋值
+                        // body.find("#id").val(data.id);
+                        body.find("#id").val(data.id);
+                        body.find("#good_name").val(data.name);
+                        body.find("#introduce").val(data.introduce);
+                        body.find("#price").val(data.price);
+                        body.find("#create_time").val(data.create_time);
+                        body.find("#update_time").val(data.update_time);
+                        body.find("#amount").val(data.amount);
+                        body.find("#image1_src").val(data.image1_src);
+                        body.find("#image2_src").val(data.image2_src);
+                        body.find("#image3_src").val(data.image3_src);
+                        body.find("#com_state").val(data.state);
+                        body.find("#buyers").val(data.buyers);
+                        body.find("#supplier").val(data.supplier);
+
+                    }
+
+                });
+                //同步更新缓存对应的值
+
+            } else if(layEvent === 'LAYTABLE_TIPS'){
+                layer.alert('Hi，头部工具栏扩展的右侧图标。');
+            }
+        });
+    })
+    //图片放大
+   function show_img()  {
+        console.log("ww")
+        console.log(e)
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: 0,
+            shadeClose: true, //点击阴影关闭
+            area: [$(e).width + 'px', $(e).height + 'px'], //宽高
+            content: "<img src=" + $(e).attr('src') + " />"
+        });
+    }
+</script>
+<script type="text/html" id="toolbarmin">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
+    <!-- 这里同样支持 laytpl 语法，如： -->
+    <!--        {{#  if(d.auth > 2){ }}-->
+    <!--        <a class="layui-btn layui-btn-xs" lay-event="check">审核</a>-->
+    <!--        {{#  } }}-->
 </script>
 </body>
 </html>
+
+<!--图片模板-->
+<script type="text/html" id="template">
+    <div>
+       {{#  if(   d.image1_src){ }}
+          <img   src="{{ d.image1_src}}" style="height: 30px;width: 40px;margin-left: 10px" οnclick="show_img()">
+         {{#  } else { }}
+           <img οnclick="show_img()"  src="https://s2.loli.net/2022/07/07/s9T8GQP13RoZdNh.png" style="height: 30px;width: 40px;margin-left: 10px">
+         {{#  } }}
+      </div>
+</script>
+

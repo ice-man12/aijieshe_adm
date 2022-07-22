@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aijieshe.dao.commodity_dao">
+
+    <!--    ArrayList<administrator> getall(String id,String name);-->
+    <select id="getall" resultType="com.aijieshe.pojo.commodity">
+        select id, name, introduce, price, create_time,update_time,image1_src,image2_src,image3_src,state,buyers,supplier,amount from commodity
+        <where>
+            <if test="id != null and id != ''">
+                and id=#{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name=#{name}
+            </if>
+        </where>
+        limit #{page} , #{limit}
+    </select>
+    <!--    int getconut(String id,String name);-->
+    <select id="getcount" resultType="int">
+        select count(*) from commodity
+        <where>
+            <if test="id != null and id != ''">
+                and id=#{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name=#{name}
+            </if>
+        </where>
+    </select>
+
+    <update id="updata">
+        update commodity set name=#{name},introduce=#{introduce},price=#{price},create_time=#{create_time},update_time=#{update_time},amount=#{amount},image1_src=#{image1_src},image2_src =#{image2_src},image3_src=#{image3_src},state=#{state},buyers=#{buyers},supplier=#{supplier} where id=#{id}
+    </update>
+
+    <delete id="delbyid" >
+        delete from commodity where id=#{id}
+    </delete>
+
+    <insert id="add_commodity">
+        insert into commodity(         id, name, introduce, price, create_time, update_time, amount, image1_src, image2_src, image3_src, state, buyers, supplier
+        ) values (#{id},#{name},#{introduce},#{price},#{create_time},#{update_time},#{amount},#{image1_src},#{image2_src},#{image3_src},#{state},#{buyers},#{supplier})
+    </insert>
+
+    <update id="update_list">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update commodity
+            <set>
+                    state = #{state},
+
+            </set>
+            where id = #{item.id}
+        </foreach>
+    </update>
+</mapper>

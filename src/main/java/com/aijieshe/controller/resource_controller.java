@@ -1,9 +1,11 @@
 package com.aijieshe.controller;
 
 import com.aijieshe.pojo.administrator;
+import com.aijieshe.pojo.commodity;
 import com.aijieshe.pojo.json;
 import com.aijieshe.pojo.user;
 import com.aijieshe.service.administrator_service;
+import com.aijieshe.service.commodity_service;
 import com.aijieshe.service.user_service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
@@ -24,6 +26,8 @@ public class resource_controller {
     private administrator_service adm_service;
     @Autowired
     private user_service use_service;
+    @Autowired
+    private commodity_service com_service;
     @RequestMapping("/getresource/get/{path}")
     public String getresource_get(@PathVariable("path") String path){
         return path;
@@ -288,14 +292,12 @@ public class resource_controller {
 
         List<HashMap<String, String>> updateMap = new ArrayList<>();
         for (int i = 0; i <arrys.length ; i++) {
-            System.out.println(arrys[i]);
-            System.out.println(states[i]);
             HashMap<String, String> param = new HashMap<>(2);
             param.put("id", arrys[i]);
             param.put("state", states[i]);
             updateMap.add(param);
         }
-        System.out.println(updateMap);
+
 //      如果操作执行成功，则返回 1；
 //      否则，执行失败，返回 0.
         int code=use_service.update_list(updateMap);
@@ -361,6 +363,121 @@ public class resource_controller {
         {
             js.setCode(code);
             js.setMsg("删除失败");
+        }
+        return js;
+    }
+
+
+    @RequestMapping("/getresource/commodity")
+    @ResponseBody
+    public json getresource_commodity(String id,String name,String page,String limit){
+
+
+
+        int pg=Integer.parseInt(page);
+        int lim=Integer.parseInt(limit);
+        pg=(pg-1)*lim;
+        ArrayList<commodity> data=com_service.getall(id,name,pg,lim);
+        int count=com_service.getcount(id,name);
+        json js=new json();
+        js.setCode(0);
+        js.setCount(count);
+        js.setData(data);
+        return js;
+    }
+    @RequestMapping("/updataresource/commodity")
+    @ResponseBody
+    public json updataresource_commodity(String id,String name,String introduce,String price,String create_time,String amount,String image1_src,String image2_src,String image3_src,String state,String buyers,String supplier){
+
+
+        String update_time= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+//      如果操作执行成功，则返回 1；
+//      否则，执行失败，返回 0.
+        int code=com_service.updata(id,name,introduce,price,create_time,update_time,amount,image1_src,image2_src,image3_src,state,buyers,supplier);
+        json js=new json();
+        if(code==1)
+        {
+            js.setCode(code);
+            js.setMsg("更新成功");
+        }
+        else if(code==0)
+        {
+            js.setCode(code);
+            js.setMsg("更新失败");
+        }
+        return js;
+    }
+
+    @RequestMapping("/delresource/commodity")
+    @ResponseBody
+    public json delresource_commodity(String id){
+
+//      如果操作执行成功，则返回 1；
+//      否则，执行失败，返回 0.
+        int code=com_service.delbyid(id);
+        json js=new json();
+        if(code==1)
+        {
+            js.setCode(code);
+            js.setMsg("删除成功");
+        }
+        else if(code==0)
+        {
+            js.setCode(code);
+            js.setMsg("删除失败");
+        }
+        return js;
+    }
+
+    @RequestMapping("/addresource/commodity")
+    @ResponseBody
+    public json addresource_commodity(String id,String name,String introduce,String price,String amount,String image1_src,String image2_src,String image3_src,String buyers,String supplier){
+
+//      如果操作执行成功，则返回 1；
+//      否则，执行失败，返回 0.
+        String create_time= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String state="正常";
+        int code=com_service.add_commodity(id,name,introduce,price,create_time,create_time,amount,image1_src,image2_src,image3_src,state,buyers,supplier);
+        json js=new json();
+        if(code==1)
+        {
+            js.setCode(code);
+            js.setMsg("添加成功");
+        }
+        else if(code==0)
+        {
+            js.setCode(code);
+            js.setMsg("添加失败");
+        }
+        return js;
+    }
+
+    @RequestMapping("/update_listresource/commodity")
+    @ResponseBody
+    public json update_listresource_commodity(String[] arrys){
+
+
+        List<HashMap<String, String>> updateMap = new ArrayList<>();
+        for (int i = 0; i <arrys.length ; i++) {
+            HashMap<String, String> param = new HashMap<>(1);
+            param.put("id", arrys[i]);
+            updateMap.add(param);
+        }
+        String state="冻结";
+//      如果操作执行成功，则返回 1；
+//      否则，执行失败，返回 0.
+        System.out.println(updateMap);
+        int code=com_service.update_list(updateMap,state);
+        json js=new json();
+        if(code==1)
+        {
+            js.setCode(code);
+            js.setMsg("冻结成功");
+        }
+        else if(code==0)
+        {
+            js.setCode(code);
+            js.setMsg("冻结失败");
         }
         return js;
     }
