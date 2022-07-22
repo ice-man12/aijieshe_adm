@@ -12,7 +12,7 @@
                 and id=#{id}
             </if>
             <if test="name != null and name != ''">
-                and name=#{name}
+                and name like concat('%',#{name},'%')
             </if>
         </where>
         limit #{page} , #{limit}
@@ -26,7 +26,7 @@
                 and id=#{id}
             </if>
             <if test="name != null and name != ''">
-                and name=#{name}
+                and name like concat('%',#{name},'%')
             </if>
         </where>
     </select>

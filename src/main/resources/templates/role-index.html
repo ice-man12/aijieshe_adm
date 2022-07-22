@@ -28,12 +28,6 @@
                 <div class="layui-row timo-card-screen" >
                     <div class="pull-left layui-form-pane timo-search-box">
                         <div class="layui-inline">
-                            <label class="layui-form-label">状态</label>
-                            <div class="layui-input-block timo-search-status">
-                                <select class="timo-search-select" name="status"><option value="1">正常</option><option value="2">冻结</option></select>
-                            </div>
-                        </div>
-                        <div class="layui-inline">
                             <label class="layui-form-label">编号</label>
                             <div class="layui-input-block">
                                 <input id="adm_id" type="text" name="name" value="" placeholder="请输入管理员编号" autocomplete="off" class="layui-input">
@@ -143,36 +137,33 @@
                             layer.msg("搜索框不能为空",{icon:2});
                             return;
                         }
-                        $.ajax({
-                            url:"/aijieshe/getresource/administrator",    //请求的url地址
-                            dataType:"json",   //返回格式为json
-                            // async:true,//请求是否异步，默认为异步，这也是ajax重要特性
-                            data:{"id":id,"name":name,"page":1,"limit":8},    //参数值
-                            type:"POST",   //请求方式
-                            success:function(req){
-                                console.log(req)
-                                if(req.code===0)
-                                {
-                                    layer.alert('id:'+req.data[0].id+'<br>'
-                                        + '名称:'+req.data[0].name+'<br>'
-                                        +'创建时间:'+req.data[0].starttime+'<br>'
-                                        +'更新时间:'+req.data[0].updatetime+'<br>'
-                                        +'校区:'+req.data[0].campus+'<br>'
-                                        +'部门:'+req.data[0].department+'<br>'
-                                        +'密码:'+req.data[0].password+'<br>'
-                                        +'权限:'+req.data[0].permission+'<br>'
-                                        +'手机号码:'+req.data[0].phone+'<br>'
-                                        +'职位:'+req.data[0].position+'<br>'
-                                        +'状态:'+req.data[0].state+'<br>',);
-                                }
-                                else if(req.code===1)
-                                {
-                                    layer.alert("查找不到此人",{icon:5});
-                                }
-                            },
-                            error:function(){
-                                layer.alert("系统繁忙",{icon: 5})
-                            }
+                        table.reload('tablereload', {
+                            height: 500
+                            , url: '/aijieshe/getresource/administrator?id='+id+'&name='+name //数据接口
+                            , page: true //开启分页
+                            ,limit: 8
+                            ,toolbar: '#toolbarhead'
+                            , defaultToolbar: [ 'print', 'exports' ]
+                            ,loading:true
+                            ,even: true //开启隔行背景
+                            , cols: [
+                                [ //表头
+                                    {field: 'aa', type:'numbers'}
+                                    ,{field: 'aa',type:'checkbox'}
+                                    ,{field: 'id', title: '管理员编号', width: 181, sort: true,unresize:true}
+                                    , {field: 'name', title: '管理员名称', width: 126,unresize:true}
+                                    , {field: 'department', title: '部门', width: 120,unresize:true}
+                                    , {field: 'position', title: '职位', width: 113,unresize:true}
+                                    , {field: 'permission', title: '权限', width: 128,unresize:true}
+                                    , {field: 'state', title: '状态', width: 66,unresize:true}
+                                    , {field: 'password', title: '密码',hide:true}
+                                    , {field: 'phone', title: '手机',hide:true}
+                                    , {field: 'campus', title: '校区',hide:true}
+                                    , {field: 'starttime', title: '创建时间',hide:true}
+                                    , {field: 'updatetime', title: '更新时间', hide:true}
+                                    ,{fixed: 'right', width:230, align:'center', toolbar: '#barDemo'}
+
+                                ]]
                         });
                     }
                     break;

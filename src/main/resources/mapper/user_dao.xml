@@ -9,10 +9,10 @@
                 and phone=#{phone}
             </if>
             <if test="real_name != null and real_name != ''">
-                and real_name=#{real_name}
+                and real_name like concat('%',#{real_name},'%')
             </if>
             <if test="user_name != null and user_name != ''">
-                and user_name=#{user_name}
+                and user_name like concat('%',#{user_name},'%')
             </if>
         </where>
         limit #{page} , #{limit}
@@ -26,10 +26,10 @@
                 and phone=#{phone}
             </if>
             <if test="real_name != null and real_name != ''">
-                and real_name=#{real_name}
+                and real_name like concat('%',#{real_name},'%')
             </if>
             <if test="user_name != null and user_name != ''">
-                and user_name=#{user_name}
+                and user_name like concat('%',#{user_name},'%')
             </if>
         </where>
     </select>
