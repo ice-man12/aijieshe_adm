@@ -70,6 +70,50 @@
 <script src="/aijieshe/static/js/plugins/jquery-3.3.1.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="/aijieshe/static/js/echarts.min.js" charset="utf-8"></script>
 <script>
+    //回车搜索
+    document.onkeydown = function(e){
+        var ev = document.all ? window.event : e;
+        if(ev.keyCode===13) {
+
+            layui.use('table', function() {
+                var table = layui.table;
+                var id=$('#id').val().trim();
+                var name=$('#name').val().trim();
+
+
+                table.reload('tablereload', {
+                    height: 520
+                    , url: '/aijieshe/getresource/commodity?id='+id+'&name='+name //数据接口
+                    , page: true //开启分页
+                    , limit: 6
+                    , even: true //开启隔行背景
+                    , toolbar: '#toolbarhead'
+                    , defaultToolbar: ['print', 'exports']
+                    , loading: true
+                    , cols: [
+                        [ //表头
+                            {field: 'aa', type: 'numbers'}
+                            , {field: 'aa', type: 'checkbox'}
+                            , {
+                            field: 'image1_src',
+                            title: '商品图片',
+                            templet: '#template',
+                            style: 'height:60px;width:28px;'
+                            ,unresize:true
+                        }
+                            //<img οnclick="show_img(this)"  src="{{ d.image1_src}}" style="height: 30px;width: 40px;margin-left: 10px">
+                            , {field: 'id', title: '商品编号', width: 160, sort: true,unresize:true}
+                            , {field: 'name', title: '商品名称', width: 204,unresize:true}
+                            , {field: 'create_time', title: '创建时间', width: 107, sort: true,unresize:true}
+                            , {field: 'update_time', title: '更新时间', width: 110, sort: true,unresize:true}
+                            , {field: 'state', title: '状态', width: 61,unresize:true}
+                            , {fixed: 'right', width: 216, align: 'center', toolbar: '#toolbarmin'}
+
+                        ]]
+                });
+            })
+        }
+    }
     layui.use('table', function () {
         var table = layui.table;
         table.render({

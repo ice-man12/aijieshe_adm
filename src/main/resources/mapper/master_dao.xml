@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aijieshe.dao.master_dao">
+    <select id="getall" resultType="com.aijieshe.pojo.master">
+        select id, name, phone, password, sex,reputation,money,state,create_time,address from master
+        <where>
+            <if test="id != null and id != ''">
+                and id=#{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name like concat('%',#{name},'%')
+            </if>
+        </where>
+        limit #{page} , #{limit}
+    </select>
+    <!--    int getconut(String id,String name);-->
+    <select id="getcount" resultType="int">
+        select count(*) from master
+        <where>
+            <if test="id != null and id != ''">
+                and id=#{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name like concat('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+
+    <delete id="delbyid" >
+        delete from master where id=#{id}
+    </delete>
+
+    <update id="updata">
+        update master set name=#{name},phone=#{phone},sex=#{sex},password=#{password},create_time=#{create_time},state=#{state},reputation=#{reputation},money =#{money},address=#{address} where id=#{id}
+    </update>
+
+    <insert id="add_master">
+        insert into master(id,name,phone,password,sex,reputation,money,state,create_time,address) values (#{id},#{name},#{phone},#{password},#{sex},#{reputation},#{money},#{state},#{create_time},#{address})
+    </insert>
+
+    <update id="update_list">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update master
+            <set>
+                state = #{state},
+
+            </set>
+            where id = #{item.id}
+        </foreach>
+    </update>
+</mapper>

@@ -90,7 +90,48 @@
     </script>
 
 <script>
+    //回车搜索
+    document.onkeydown = function(e){
+        var ev = document.all ? window.event : e;
+        if(ev.keyCode===13) {
 
+
+            layui.use('table', function() {
+                var table = layui.table;
+                var id=$('#adm_id').val();
+                var name=$('#adm_name').val();
+
+                table.reload('tablereload', {
+                    height: 500
+                    , url: '/aijieshe/getresource/administrator?id='+id+'&name='+name //数据接口
+                    , page: true //开启分页
+                    ,limit: 8
+                    ,toolbar: '#toolbarhead'
+                    , defaultToolbar: [ 'print', 'exports' ]
+                    ,loading:true
+                    ,even: true //开启隔行背景
+                    , cols: [
+                        [ //表头
+                            {field: 'aa', type:'numbers'}
+                            ,{field: 'aa',type:'checkbox'}
+                            ,{field: 'id', title: '管理员编号', width: 181, sort: true,unresize:true}
+                            , {field: 'name', title: '管理员名称', width: 126,unresize:true}
+                            , {field: 'department', title: '部门', width: 120,unresize:true}
+                            , {field: 'position', title: '职位', width: 113,unresize:true}
+                            , {field: 'permission', title: '权限', width: 128,unresize:true}
+                            , {field: 'state', title: '状态', width: 66,unresize:true}
+                            , {field: 'password', title: '密码',hide:true}
+                            , {field: 'phone', title: '手机',hide:true}
+                            , {field: 'campus', title: '校区',hide:true}
+                            , {field: 'starttime', title: '创建时间',hide:true}
+                            , {field: 'updatetime', title: '更新时间', hide:true}
+                            ,{fixed: 'right', width:230, align:'center', toolbar: '#barDemo'}
+
+                        ]]
+                });
+            })
+        }
+    }
     layui.use('table', function() {
         var table = layui.table;
         table.render({
@@ -132,11 +173,6 @@
                     {
                         var id=$('#adm_id').val();
                         var name=$('#adm_name').val();
-                        if(id.trim()===''&&name.trim()==='')
-                        {
-                            layer.msg("搜索框不能为空",{icon:2});
-                            return;
-                        }
                         table.reload('tablereload', {
                             height: 500
                             , url: '/aijieshe/getresource/administrator?id='+id+'&name='+name //数据接口
@@ -286,7 +322,7 @@
                                 if(req.code===1)
                                 {
                                     layer.alert(req.msg,{icon:1});
-                                    table.reload('idTest', {
+                                    table.reload('tablereload', {
                                          height: 500
                                         , url: '/aijieshe/getresource/administrator' //数据接口
                                         , page: true //开启分页

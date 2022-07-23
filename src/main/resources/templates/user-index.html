@@ -92,8 +92,51 @@
         <!--        {{#  } }}-->
     </script>
 <script type="text/javascript">
+    //回车搜索
+    document.onkeydown = function(e){
+        var ev = document.all ? window.event : e;
+        if(ev.keyCode===13) {
 
 
+            layui.use('table', function() {
+                var table = layui.table;
+                var user_name=$('#user_name').val().trim();
+                var real_name=$('#real_name').val().trim();
+                var phone=$('#phone').val().trim();
+
+                table.reload('tablereload', {
+                    height: 500
+                    , url: '/aijieshe/getresource/user?user_name='+user_name+"&real_name="+real_name+"&phone="+phone //数据接口
+                    , page: true //开启分页
+                    ,limit: 7
+                    ,toolbar: '#toolbarhead'
+                    , defaultToolbar: [ 'print', 'exports' ]
+                    ,loading:true
+                    ,even: true //开启隔行背景
+                    , cols: [
+                        [ //表头
+                            {field: 'aa', type:'numbers'}
+                            ,{field: 'aa',type:'checkbox'}
+                            ,{field: 'id', title: '用户编号', width: 144, sort: true,unresize:true}
+                            , {field: 'real_name', title: '用户姓名', width: 141,unresize:true}
+                            , {field: 'user_name', title: '用户名称', width: 156,unresize:true}
+                            , {field: 'phone', title: '手机号码', width: 147, sort: true,unresize:true}
+                            , {field: 'password', title: '密码', width: 146, sort: true,unresize:true}
+                            , {field: 'sex', title: '性别',hide:true}
+                            , {field: 'mail', title: '邮箱',hide:true}
+                            , {field: 'create_time', title: '创建时间', hide:true}
+                            , {field: 'state', title: '状态', hide:true}
+                            , {field: 'dormitorio', title: '宿舍地址',hide:true}
+                            , {field: 'instalaciones', title: '校区',hide:true}
+                            , {field: 'integral', title: '积分', hide:true}
+                            , {fixed: 'right', width: 231, align: 'center', toolbar: '#toolbarmin'}
+
+                        ]]
+                });
+
+            })
+        }
+    }
 
     layui.use('table', function() {
         var table = layui.table;

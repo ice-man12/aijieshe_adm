@@ -1,11 +1,9 @@
 package com.aijieshe.controller;
 
-import com.aijieshe.pojo.administrator;
-import com.aijieshe.pojo.commodity;
-import com.aijieshe.pojo.json;
-import com.aijieshe.pojo.user;
+import com.aijieshe.pojo.*;
 import com.aijieshe.service.administrator_service;
 import com.aijieshe.service.commodity_service;
+import com.aijieshe.service.master_service;
 import com.aijieshe.service.user_service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
@@ -28,11 +26,17 @@ public class resource_controller {
     private user_service use_service;
     @Autowired
     private commodity_service com_service;
+    @Autowired
+    private master_service mas_service;
     @RequestMapping("/getresource/get/{path}")
     public String getresource_get(@PathVariable("path") String path){
         return path;
     }
 
+
+
+
+    //adm资源
     @RequestMapping("/getresource/administrator")
     @ResponseBody
     public json getresource_administrator(String id,String name,String page,String limit){
@@ -201,6 +205,10 @@ public class resource_controller {
         return js;
     }
 
+
+
+
+    //user资源
     @RequestMapping("/getresource/user")
     @ResponseBody
     public json getresource_user(String phone,String real_name,String user_name,String page,String limit){
@@ -368,6 +376,11 @@ public class resource_controller {
     }
 
 
+
+
+
+
+    //commodity资源
     @RequestMapping("/getresource/commodity")
     @ResponseBody
     public json getresource_commodity(String id,String name,String page,String limit){
@@ -478,6 +491,134 @@ public class resource_controller {
         {
             js.setCode(code);
             js.setMsg("冻结失败");
+        }
+        return js;
+    }
+
+
+
+
+    //master资源
+    @RequestMapping("/getresource/master")
+    @ResponseBody
+    public json getresource_master(String id,String name,String page,String limit){
+
+
+        int pg=Integer.parseInt(page);
+        int lim=Integer.parseInt(limit);
+        pg=(pg-1)*lim;
+
+        ArrayList<master> data=mas_service.getall(id,name,pg,lim);
+        int count=mas_service.getcount(id,name);
+        json js=new json();
+        js.setCode(0);
+        js.setCount(count);
+        js.setData(data);
+        return js;
+
+
+    }
+
+    @RequestMapping("/delresource/master")
+    @ResponseBody
+    public json delresource_master(String id){
+
+//      如果操作执行成功，则返回 1；
+//      否则，执行失败，返回 0.
+        int code=mas_service.delbyid(id);
+        json js=new json();
+        if(code==1)
+        {
+            js.setCode(code);
+            js.setMsg("删除成功");
+        }
+        else if(code==0)
+        {
+            js.setCode(code);
+            js.setMsg("删除失败");
+        }
+        return js;
+    }
+
+    @RequestMapping("/updataresource/master")
+    @ResponseBody
+    public json updataresource_master(String id,String name,String phone,String password,String create_time,String sex,String reputation,String money,String state,String address){
+
+
+
+//      如果操作执行成功，则返回 1；
+//      否则，执行失败，返回 0.
+        int code=mas_service.updata(id,name,phone,password,create_time,sex,reputation,money,state,address);
+        json js=new json();
+        if(code==1)
+        {
+            js.setCode(code);
+            js.setMsg("更新成功");
+        }
+        else if(code==0)
+        {
+            js.setCode(code);
+            js.setMsg("更新失败");
+        }
+        return js;
+    }
+
+    @RequestMapping("/addresource/master")
+    @ResponseBody
+    public json addresource_master(String id,String name,String phone,String password,String address,String sex){
+
+//      如果操作执行成功，则返回 1；
+//      否则，执行失败，返回 0.
+        String create_time= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String state="正常";
+        String reputation="0";
+        String money="0";
+        int code=mas_service.add_master(id,name,phone,password,sex,reputation,money,state,create_time,address);
+        json js=new json();
+        if(code==1)
+        {
+            js.setCode(code);
+            js.setMsg("添加成功");
+        }
+        else if(code==0)
+        {
+            js.setCode(code);
+            js.setMsg("添加失败");
+        }
+        return js;
+    }
+
+    @RequestMapping("/update_listresource/master")
+    @ResponseBody
+    public json update_listresource_master(String[] arrys,String state){
+
+
+        List<HashMap<String, String>> updateMap = new ArrayList<>();
+        for (int i = 0; i <arrys.length ; i++) {
+            HashMap<String, String> param = new HashMap<>(1);
+            param.put("id", arrys[i]);
+            updateMap.add(param);
+        }
+//      如果操作执行成功，则返回 1；
+//      否则，执行失败，返回 0.
+        System.out.println(updateMap);
+        int code=mas_service.update_list(updateMap,state);
+        json js=new json();
+        if(code==1)
+        {
+            js.setCode(code);
+            if (state.equals("冻结"))
+            js.setMsg("冻结成功");
+            else
+            js.setMsg("启用成功");
+        }
+        else if(code==0)
+        {
+            js.setCode(code);
+            if (state.equals("冻结"))
+            js.setMsg("冻结失败");
+            else
+            js.setMsg("启用失败");
         }
         return js;
     }

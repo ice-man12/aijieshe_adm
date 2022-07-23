@@ -42,7 +42,7 @@
             <span class="layui-input-inline">
                 <select name="newsType" id="state">
                             <option value="正常">正常</option>
-                            <option value="冻结">冻结</option>\
+                            <option value="冻结">冻结</option>
                 </select>
             </span>
         </div>
@@ -96,6 +96,12 @@
 <script src="/aijieshe/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
 <script src="/aijieshe/static/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
 <script>
+    setTimeout(function(){//开启一个计时器，在这里面写所有页面渲染完成之后，要执行的代码
+
+        layui.use('form',function (){
+            layui.form.render("select");//layUI设置
+        })
+    }, 500);
     layui.use('laydate', function(){
         var laydate = layui.laydate;
 
