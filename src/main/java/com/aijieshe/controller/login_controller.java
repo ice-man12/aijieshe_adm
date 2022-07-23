@@ -33,8 +33,9 @@ public class login_controller {
         return "index";
     }
     @RequestMapping("/get/{path}")
-    public String get(@PathVariable("path") String path){
+    public String get(@PathVariable("path") String path,HttpServletRequest request){
         String pt=path;
+        request.setAttribute("adm",request.getSession().getAttribute("administrator"));
         return pt;
     }
     @RequestMapping("/login")

@@ -66,8 +66,8 @@
 <script src="/aijieshe/static/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
 <script src="/aijieshe/static/js/main.js" charset="utf-8"></script>
 <script src="/aijieshe/static/js/plugins/jquery-3.3.1.min.js" charset="utf-8"></script>
-<script>
-
+<script th:inline="javascript">
+    var adm_permission=[[${adm.permission}]]
     //回车搜索
     document.onkeydown = function(e){
         var ev = document.all ? window.event : e;
@@ -175,6 +175,11 @@
                     break;
                 case 'add':
                 {
+                    if(adm_permission==='管理员')
+                    {
+                        layer.alert("权限不够",{icon:4});
+                        return ;
+                    }
                     layer.open({
                         type: 2,
                         title: '添加师傅',
@@ -455,7 +460,11 @@
                 });
             } else if(layEvent === 'edit'){ //编辑
                 //do something
-
+                if(adm_permission==='管理员')
+                {
+                    layer.alert("权限不够",{icon:4});
+                    return ;
+                }
                 layer.open({
                     type: 2,
                     title: '编辑信息',

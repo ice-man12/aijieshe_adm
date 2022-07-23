@@ -89,7 +89,8 @@
         <!--        {{#  } }}-->
     </script>
 
-<script>
+<script th:inline="javascript">
+    var adm_permission=[[${adm.permission}]]
     //回车搜索
     document.onkeydown = function(e){
         var ev = document.all ? window.event : e;
@@ -205,6 +206,11 @@
                     break;
                 case 'add':
                     {
+                        if(adm_permission==='管理员')
+                        {
+                            layer.alert("权限不够",{icon:4});
+                            return ;
+                        }
                         layer.open({
                             type: 2,
                             title: '添加管理员',
@@ -295,6 +301,11 @@
                     break;
                 case 'authorize':
                     {
+                        if(adm_permission==='管理员')
+                        {
+                            layer.alert("权限不够",{icon:4});
+                            return ;
+                        }
                         if(checkStatus.data.length===0)
                         {
                             layer.msg("操作对象不能为空",{icon:2})
@@ -444,7 +455,11 @@
 
             if(layEvent === 'detail'){ //查看
                 //do somehing
-
+                if(adm_permission==='管理员')
+                {
+                    layer.alert("权限不够",{icon:4});
+                    return ;
+                }
                 layui.use('layer', function(){
                     var layer = layui.layer;
                     layer.alert('id:'+data.id+'<br>'
@@ -522,7 +537,11 @@
                 });
             } else if(layEvent === 'edit'){ //编辑
                 //do something
-
+                if(adm_permission==='管理员')
+                {
+                    layer.alert("权限不够",{icon:4});
+                    return ;
+                }
                 layer.open({
                     type: 2,
                     title: '编辑信息',

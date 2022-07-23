@@ -91,7 +91,9 @@
         <!--        <a class="layui-btn layui-btn-xs" lay-event="check">审核</a>-->
         <!--        {{#  } }}-->
     </script>
-<script type="text/javascript">
+<script th:inline="javascript">
+    var adm_permission=[[${adm.permission}]]
+
     //回车搜索
     document.onkeydown = function(e){
         var ev = document.all ? window.event : e;
@@ -216,9 +218,14 @@
                     break;
                 case 'add':
                 {
+                    if(adm_permission==='管理员')
+                    {
+                        layer.alert("权限不够",{icon:4});
+                        return ;
+                    }
                     layer.open({
                         type: 2,
-                        title: '添加管理员',
+                        title: '添加用户员',
                         content: '/aijieshe/getresource/get/user_add',
                         area: ['406px', '572px'],
                         resize: false,
@@ -608,7 +615,11 @@
                 });
             } else if(layEvent === 'edit'){ //编辑
                 //do something
-
+                if(adm_permission==='管理员')
+                {
+                    layer.alert("权限不够",{icon:4});
+                    return ;
+                }
                 layer.open({
                     type: 2,
                     title: '编辑信息',

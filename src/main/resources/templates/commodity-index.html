@@ -69,8 +69,9 @@
 <script src="/aijieshe/static/js/main.js" charset="utf-8"></script>
 <script src="/aijieshe/static/js/plugins/jquery-3.3.1.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="/aijieshe/static/js/echarts.min.js" charset="utf-8"></script>
-<script>
+<script th:inline="javascript">
     //回车搜索
+    var adm_permission=[[${adm.permission}]]
     document.onkeydown = function(e){
         var ev = document.all ? window.event : e;
         if(ev.keyCode===13) {
@@ -193,6 +194,11 @@
                     break;
                 case 'add':
                 {
+                    if(adm_permission==='管理员')
+                    {
+                        layer.alert("权限不够",{icon:4});
+                        return ;
+                    }
                     layer.open({
                         type: 2,
                         title: '添加商品',
@@ -289,6 +295,11 @@
                     break;
                 case 'freeze':
                 {
+                    if(adm_permission==='管理员')
+                    {
+                        layer.alert("权限不够",{icon:4});
+                        return ;
+                    }
                     if(checkStatus.data.length===0)
                     {
                         layer.msg("操作对象不能为空",{icon:2})
@@ -387,6 +398,11 @@
 
                 });
             } else if(layEvent === 'del'){ //删除
+                if(adm_permission==='管理员')
+                {
+                    layer.alert("权限不够",{icon:4});
+                    return ;
+                }
                 layer.confirm('是否删除id为：'+data.id, function(index){
 
 
@@ -445,7 +461,11 @@
                 });
             } else if(layEvent === 'edit'){ //编辑
                 //do something
-
+                if(adm_permission==='管理员')
+                {
+                    layer.alert("权限不够",{icon:4});
+                    return ;
+                }
                 layer.open({
                     type: 2,
                     title: '编辑信息',

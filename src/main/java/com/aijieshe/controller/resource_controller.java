@@ -30,6 +30,7 @@ public class resource_controller {
     private master_service mas_service;
     @RequestMapping("/getresource/get/{path}")
     public String getresource_get(@PathVariable("path") String path){
+
         return path;
     }
 
